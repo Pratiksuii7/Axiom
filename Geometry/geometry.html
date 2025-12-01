@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geometry Calculator</title>
+    <link rel="stylesheet" href="geometry.css">
+</head>
+
+<body>
+
+    <div id="math-machine">
+        <a href="/index.html">Back</a>
+        <h1>GEOMETRY WHIZ</h1>
+
+        <label for="shape-picker">Pick a Shape:</label>
+        <select id="shape-picker" onchange="changeStuff()">
+            <option value="">Choose One:</option>
+            <option value="square">Square</option>
+            <option value="circle">Circle</option>
+            <option value="triangle">Triangle</option>
+            <option value="cube">Cube</option>
+            <option value="cuboid">Cuboid</option>
+            <option value="sphere">Sphere</option>
+        </select>
+
+        <label for="math-mode">Calculate?,What to calculate?</label>
+        <select id="math-mode" onchange="changeStuff()">
+            <option value="">Choose Type:</option>
+            <option value="area">Area</option>
+            <option value="perimeter">Perimeter (Flat Shapes Only)</option>
+            <option value="volume">Volume (3D Shapes Only)</option>
+        </select>
+
+        <div id="stuff-go-here">
+            <p id="read-me-first">Select a shape and calculation type above.</p>
+        </div>
+
+        <button onclick="doTheMath()">CALCULATE</button>
+
+        <div id="final-check">
+            <strong>Result:</strong> <span id="the-magic-number">--</span>
+        </div>
+    </div>
+    <div class="footer">
+        <footer>
+            <p>&copy; Made by Pratik; </p>
+        </footer>
+    </div>
+
+    <script src="geometry.js"></script>
+</body>
+
+</html>

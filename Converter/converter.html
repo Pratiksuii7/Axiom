@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary to ......</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="converter.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="back">
+            <a href="/index.html">Back</a>
+            </div>
+            <h1>Converting values to different number systems</h1>
+            <p>Wanna convert? Just type a number and see the magic.</p>
+        </div>
+
+        <div class="input-zone">
+
+            <div class="input-line">
+
+                <div style="width:160px">
+                    <label for="base-select">Choose Base</label>
+                    <select id="base-select">
+                        <option value="10" selected>Decimal (Base 10)</option>
+                        <option value="2">Binary (Base 2)</option>
+                        <option value="16">Hex (Base 16)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="num-input">Number to Convert</label>
+                    <input type="text" id="num-input" class="input-field" placeholder="which num r u choosing?">
+                </div>
+
+            </div>
+
+            <div class="error-msg" id="error-msg"></div>
+
+        </div>
+
+        <div class="output-grid">
+
+            <div class="card" id="card-bin">
+                <h4>Binary (Base 2)</h4>
+                <div class="number" id="out-bin">0</div>
+            </div>
+            <div class="card" id="card-oct">
+                <h4>Octal (Base 8)</h4>
+                <div class="number" id="out-oct">0</div>
+            </div>
+            <div class="card" id="card-dec">
+                <h4>Decimal (Base 10)</h4>
+                <div class="number" id="out-dec">0</div>
+            </div>
+            <div class="card" id="card-hex">
+                <h4>Hex (Base 16)</h4>
+                <div class="number" id="out-hex">0</div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <footer>
+            <p>&copy; Made by Pratik; </p>
+        </footer>
+    </div>
+    <script src="converter.js"></script>
+</body>
+</html>

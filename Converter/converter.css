@@ -1,0 +1,128 @@
+/*designing......  man designing is tough */
+:root {
+    --bg:#050505;
+    --text:#fff;
+    --card:#1a1a1a;
+    --input:#262626;
+    --border: #333;
+    --input-bdr: #444;
+    --muted:#a3a3a3; 
+    --accent:#EC3750;
+}
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body{
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;/*2 vs 1.8, who wins? */
+}
+.container{
+    max-width: 600px;
+    width: 100%;
+    background: var(--card);
+    padding: 2rem;/*2 won, sorry 1.8 */
+    border-radius: 1rem;
+    border: 1px solif var(--border);
+}
+.header{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.header h1{
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+}
+.header p{
+    font-size:1rem;
+}
+.input-zone{
+    padding: 15px;
+    border-radius: 0.5 rem;
+    border: 1px solid var(--input);
+    margin-bottom: 1.5rem;
+    background: #1f1f1f;
+}
+.input-line{
+    display: flex;
+    gap: 15px;
+    align-items: flex-end;
+}
+.input-line label{
+    color: var(--muted);
+    margin-bottom: 3px;
+    display: block;
+    font-size: 0.8rem; /* 0.8 vs 0.75 lol*/
+}
+.input-field, select{
+    width: 100%;
+    background: var(--input);
+    color: var(--text);
+    font-family: monospace;
+    font-size: 1rem;
+    padding: 10px 15px;
+    border: 1px colid var(--input-bdr);
+    border-radius: 4px;/* 4 vs 5, i love 4 more */
+}
+.output-grid{
+    display: grid;
+    gap: 10px;
+}
+.card{
+    background: var(--input);
+    border: 1px solid var(--input-bdr);
+    border-radius: 6px;
+    padding: 12px;
+}
+.card h4{
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.card .number{
+    font-family: monospace;
+    font-size: 1 rem;
+    word-break: break-all;
+}
+.error-msg{
+    color: var(--accent);
+    height: 18px;
+    margin-top: 5px;
+    font-size: 0.8rem;/*0.8 won lol */
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer {
+    text-align: center;
+    border-top: 1px solid #171717;
+    bottom: 0;
+    left: 49%;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+}
+.back{
+    align-items: left;
+}
+a{
+    text-decoration: none;
+    color: var(--text);
+    position: fixed;
+    left:35%;
+    top:22%;
+}
