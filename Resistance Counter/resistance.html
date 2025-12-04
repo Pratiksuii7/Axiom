@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resistance Counter</title>
+    <link rel="stylesheet" href="resistance.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="calculator-card">
+        <a href="/index.html">Back</a>
+        <h1 class="main-title">4 Band Resistor Value Counter</h1>
+        <p class="subtitle">Select the color bands and wait for the magic.</p>
+
+        <div class="resistor-container">
+            <div class="resistor-body">
+                <div class="lead lead-left"></div>
+                <div class="lead lead-right"></div>
+
+                <div id="band1_graphic" class="band band1-pos bg-color-black"></div>
+                <div id="band2_graphic" class="band band2-pos bg-color-black"></div>
+                <div id="band3_graphic" class="band band3-pos bg-color-brown"></div>
+                <div id="band4_graphic" class="band band4-pos bg-color-gold"></div>
+            </div>
+        </div>
+
+        <div class="controls-grid">
+            <div class="input-group">
+                <label for="band1" class="input-label">Band 1 (Digit)</label>
+                <select id="band1" onchange="calculate_resistance()" class="input-select">
+                    <option value="0" data-color = "black">Black (0)</option>
+                    <option value="1" data-color = "brown">Brown (1)</option>
+                    <option value="2" data-color = "red">Red (2)</option>
+                    <option value="3" data-color = "orange">Orange (3)</option>
+                    <option value="4" data-color = "yellow">Yellow (4)</option>
+                    <option value="5" data-color = "green">Green (5)</option>
+                    <option value="6" data-color = "blue">Blue (6)</option>
+                    <option value="7" data-color = "violet">Violet (7)</option>
+                    <option value="8" data-color = "gray">Gray (8)</option>
+                    <option value="9" data-color = "white">White (9)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+            <label for="band2" class="input-label">Band 2 (Digit)</label>
+            <select id="band2" onchange="calculate_resistance()" class="input-select">
+                    <option value="0" data-color = "black">Black (0)</option>
+                    <option value="1" data-color = "brown">Brown (1)</option>
+                    <option value="2" data-color = "red">Red (2)</option>
+                    <option value="3" data-color = "orange">Orange (3)</option>
+                    <option value="4" data-color = "yellow">Yellow (4)</option>
+                    <option value="5" data-color = "green">Green (5)</option>
+                    <option value="6" data-color = "blue">Blue (6)</option>
+                    <option value="7" data-color = "violet">Violet (7)</option>
+                    <option value="8" data-color = "gray">Gray (8)</option>
+                    <option value="9" data-color = "white">White (9)</option>
+            </select>
+          </div>
+          
+          <div class="input-group">
+            <label for="multiplier" class="input-label"">Band 3 (Multiplier)</label>
+            <select id="multiplier" onchange="calculate_resistance()" class="input-select">
+                <option value="1" data-color="black">Black (x1)</option>
+                <option value="10" data-color="brown">Brown (x10)</option>
+                <option value="100" data-color="red">Red (x100)</option>
+                <option value="1000" data-color="orange">Orange (x1k)</option>
+                <option value="10000" data-color="yellow">Yellow (x10k)</option>
+                <option value="100000" data-color="green">Green (x100k)</option>
+                <option value="1000000" data-color="blue">Blue (x1M)</option>
+                <option value="10000000" data-color="violet">Violet (x10M)</option>
+                <option value="0.1" data-color="gold">Gold (x0.1)</option>
+                <option value="0.01" data-color="sliver">Sliver (x0.01)</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="tolerance" class="input-label">Band 4 (Tolerance)</label>
+            <select  id="tolerance" onchange="calculate_resistance()" class="input-select">
+                <option value="0.01" data-color="brown">Brown (±1%)</option>
+                    <option value="0.02" data-color="red">Red (±2%)</option>
+                    <option value="0.005" data-color="green">Green (±0.5%)</option>
+                    <option value="0.0025" data-color="blue">Blue (±0.25%)</option>
+                    <option value="0.001" data-color="violet">Violet (±0.1%)</option>
+                    <option value="0.05" data-color="gold" selected>Gold (±5%)</option>
+                    <option value="0.10" data-color="silver">Silver (±10%)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="result-panel">
+            <h2 class="result-title">Calculated Resistance:</h2>
+            <div id="resultbox" class="result-value">
+                100 $\Omega$ $\pm$ 5%
+            </div>
+            <div id="minmax" class="tolerance-range">
+                (Min: 95 $\Omega$ | Max: 105 $\Omega$)
+            </div>
+        </div>
+    </div>
+
+    <script src="resistance.js"></script>
+</body>
+</html>

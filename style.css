@@ -66,8 +66,10 @@ h1 {
 
 .itemsgrid {
     display: flex;
-    gap: 1.5rem;
-    grid-template-columns: 1fr;
+    flex-direction: row;
+    gap: 1rem;
+    grid-template-columns: fr;
+    width: 100%;
 }
 
 
@@ -78,7 +80,7 @@ h1 {
     display: flex;
     flex-direction: column;
      border-radius: 7px;
-     width:35%;
+     width:50%;
 }
 
 .box:hover {
