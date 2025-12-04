@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Solar System Siimulator</title>
+    <link rel="stylesheet" href="3d.css">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script> 
+</head>
+<body>
+    <div id="threeContainer"></div>
+    
+    <div class="ui-panel">
+        <a href="/index.html">Back</a> <br>
+        <h2 class="title">Control Menu</h2>
+        <div class="controls">
+            <div class="control-block">
+                <div class="row">
+                    <label for="speed" class="small">Orbital Speed: </label>
+                    <span id="speedValue" class="small">1.0</span>
+                </div>
+                <input type="range" id="speedRange" min="0.1" max="3.0" step="0.1" value="1.0">
+            </div>
+
+
+            <div class="control-block">
+                <div class="row" style="margin-bottom: 10px;">
+                    <button id="pauseBtn">Pause Simulation</button>
+                </div>
+                <div class="toggle-row">
+                    <label for="small"  class="small">Display Orbits?</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="orbitToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="info" id="infobox">
+            <div class="info-title" id="planetName">Sun</div>
+            <div class="info-data" id="planetData">
+                <div><strong>Made With:</strong>HTML/CSS/JS</div>
+                <div><strong>Instruction:</strong>Use mouse to zoom(scroll) and see(click and drag)</div>
+                <div><strong>Info:</strong>Click a planet to get its details in info tab/</div>
+            </div>
+        </div>
+        <div class="footer">
+            <footer>&copy;Made By Pratik</footer>
+        </div>
+        
+        
+
+
+    </div>
+    
+    <script src="3d.js"></script>
+</body>
+</html>
