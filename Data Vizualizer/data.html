@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualizer</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="data.css">
+</head>
+<body>
+    <div class="topbar">
+        <button class="themebtn" onclick="changetheme()">Change Theme</button>
+    </div>
+
+    <div class="maincard">
+        <a href="/index.html">Back</a>
+        <h2>Chart Builder</h2>
+
+        <div class="inputarea">
+            <input type="text" id="names" class="userinput" placeholder="Labels (Eg: CR7, Messi, Neymar etc.)">
+            <input type="text" id="values" class="userinput" placeholder="Values (Eg: 7, 10,11 etc)">
+        </div>
+
+        <div class="controlbtns">
+            <button class="chartbtn" onclick="buildchart('bar')">Bar</button>
+            <button class="chartbtn" onclick="buildchart('line')">Line</button>
+            <button class="chartbtn" onclick="buildchart('pie')">Pie chart</button>
+            <button class="chartbtn" onclick="buildchart('doughnut')">Doughnut</button>
+        </div>
+
+        <div class="canvasbox">
+            <canvas id="thecanvas"></canvas>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+</body>
+</html>

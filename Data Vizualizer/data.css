@@ -1,0 +1,85 @@
+body{
+    background: #eef2f5;
+    color: #333;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+body.darkmode{
+    background: #1a1a2e;
+    color: #e0e0e0;
+}
+
+.topbar{
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+.themebtn{
+    background: transparent;
+    border: 2px solid #888;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    color: inherit;
+}
+.maincard{
+    background: white;
+    width: 100%;
+    max-width: 600px;
+    padding: 25px;
+    border-radius: 15px;
+}
+body.darkmode .maincard{
+    background: #16213e;
+}
+.inputarea{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.userinput{
+    background: transparent;
+    color: inherit;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+}
+.controlbtns{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.chartbtn{
+    background: #4cc9f0;
+    color: white;
+    border: none; /* like my marks in native lang subject(neplai)*/
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+}
+.chartbtn:hover{
+    opacity: 0.9;
+}
+.canvasbox{
+    height: 350px;
+    width: 100%;
+    position: relative;
+}
+a{
+    text-decoration: none;
+    color: inherit;
+}
+/*man i am gonna slep zzzzzz */
