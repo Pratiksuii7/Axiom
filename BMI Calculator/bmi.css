@@ -1,0 +1,119 @@
+  body {
+            background-color: #1a202c;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* so u r telling u haven't watched naruto by now? */
+        .bmicard {
+            width: 100%;
+            max-width: 480px;
+            background-color: #2d3748;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); 
+            border: 1px solid #4a5568;
+        }
+        .inputunitspanel {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        @media (min-width: 640px) {
+            .inputunitspanel {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        /* first watch naruto and examine the code fast!!!!! */
+        .inputgroup {
+            flex-direction: column;
+            margin-bottom: 1.25rem;
+        }
+        .inputlabel {
+            color: #a0aec0;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+        .inputfield {
+            padding: 0.75rem;
+            background-color: #4a5568;
+            color: #e2e8f0;
+            border: 2px solid #4a5568;
+            border-radius: 0.5rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .inputfield:focus{
+            outline: none;
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.3); 
+        }
+        .resultdisplay{
+            padding: 1.5rem;
+            text-align: center;
+            border-radius: 0.75rem;
+            margin-top: 2rem;
+        }
+        .bmilabel{
+            font-size: 1.125rem;/*1.15 was also good but my brain refined it more.......*/
+            font-weight: 600;/*not too much fat*/
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+        .bmivalue{
+            font-weight: 700;/*fat*/
+            font-size: 3rem;
+            line-height: 1; 
+        }
+        .assessmenttext {
+            color: #cdb5e0;
+            font-size: 1.25rem;
+            font-weight: 500; /* absolutely not fat*/
+            margin-top: 0.5rem;
+        }
+
+        .status-underweight{
+            background-color: #63b3ed40;
+            color: #63b3ed;
+        }
+        .status-normal {
+            background-color: #48bb7840;
+            color: #48bb78;
+        }
+        .status-overweight{
+            background-color: #f6ad5540;
+            color: #f6ad55;
+        }
+        .status-obese{
+            background-color: #f5656540;
+            color: #f56565;
+        }
+        .status-default{
+            background-color: #4a5568;
+            color: #a0aec0;
+        }
+        .unitbutton{
+            padding: 0.75rem 1rem;
+            font-weight: 600; /*not too fat*/
+            border-radius: 0.5rem; 
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .unitbutton-inactive{
+            background-color: #4a5568;
+            color: #a0aec0;
+        }
+        .unitbutton-active{
+            background-color: #4299e1;
+            color: #ffffff;
+        }
+       .bmicard a{
+            text-decoration: none;
+            position: fixed;
+            color: #a0aec0;
+            margin-bottom: 100px;
+        }
+        /* watched naruto?*/

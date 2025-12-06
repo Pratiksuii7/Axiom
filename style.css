@@ -10,6 +10,8 @@
     --btn-hover: #333;
 }
 
+/* do you watch football?*/
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -23,6 +25,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    min-height: 100vh;
 }
 
 .bggrid {
@@ -30,6 +33,10 @@ body {
         linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
     background-size: 40px 40px;
     position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: -1;
 }
 
@@ -42,9 +49,9 @@ header {
     max-width: 800px;
     margin: 0 auto;
 }
-
+/* who is your favourite player?*/
 h1 {
-    font-size: 3 rem;
+    font-size: 3rem;
     font-weight: 700;
     margin-bottom: 1rem;
 }
@@ -52,7 +59,7 @@ h1 {
 .subtxt {
     color: var(--text-muted);
     font-size: 1.1rem;
-    font-weight: 3000;
+    font-weight: 300;
     max-width: 600px;
     margin: 0 auto;
 }
@@ -62,14 +69,26 @@ h1 {
     max-width: 1150px;
     margin: 0 auto;
     padding: 0 1.5rem 5rem 1.5rem;
+    flex-grow: 1;
 }
 
 .itemsgrid {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    grid-template-columns: fr;
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
     width: 100%;
+}
+/* has to make responsive else it will suck on mobile*/
+@media (min-width: 640px) {
+    .itemsgrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .itemsgrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 
@@ -79,8 +98,8 @@ h1 {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-     border-radius: 7px;
-     width:50%;
+    border-radius: 7px;
+    transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .box:hover {
@@ -96,10 +115,11 @@ h1 {
     align-items: center;
     justify-content: center;
 }
-
+/* ronaldo?, messi?, neymar? */
 .boxhead img {
     width: 70px;
     height: 70px;
+    opacity: 0.5;
     transition: opacity 0.2s ease;
 }
 
@@ -141,6 +161,7 @@ h1 {
     border-radius: 0.5rem;
     text-decoration: none;
     cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
 .go:hover {
@@ -153,11 +174,6 @@ h1 {
     opacity: 0.6;
 }
 
-.wipbox:hover {
-    opacity: 1;
-    transform: none;
-}
-
 .footer {
     display: flex;
     align-items: center;
@@ -168,12 +184,12 @@ footer {
     text-align: center;
     border-top: 1px solid #171717;
     padding: 2rem;
-    bottom: 0;
-    position: fixed;
+    position: relative;
+    margin-top: auto;
     align-items: center;
     width: 100%;
 }
-
+/* cr7 is most awesome one, he is my idol*/
 footer p {
     font-size: 0.75rem;
     color: #525252;

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator</title>
+    <link rel="stylesheet" href="bmi.css">
+     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="bmicard">
+        <a href="/index.html">Back</a>
+        <h1 class="text-3xl font-bold text-center text-white mb-6">BMI Calculator</h1>
+
+        <div class="flex justify-center space-x-4 mb-8">
+            <button id="metricbutton" class="unitbutton unitbutton-active" onclick="switchunits('metric')">Metric (kg, cm)</button>
+            <button id="imperialbutton" class="unitbutton unitbutton-inactive" onclick="switchunits('imperial')">Imperial (lbs, in)</button>
+        </div>
+
+        <div id="metricinputs">
+            <div class="inputgroup">
+                <label for="heightinputmetric" class="inputlabel">Height (cm)</label>
+                <input type="number" id="heightinputmetric" class="inputfield" placeholder="eg: 175" oninput="calculatebmi()">
+            </div>
+            <div class="inputgroup">
+                <label for="weightinputmetric" class="inputlabel">Weight (kg)</label>
+                <input type="number" id ="weightinputmetric" class="inputfield" placeholder="eg: 70kg" oninput="calculatebmi()">
+            </div>
+        </div>
+
+        <div id="imperialinputs" style="display: none;">
+            <div class="inputunitspanel">
+                <div class="inputgroup">
+                    <label for="heightinputfeet" class="inputlabel">Height (ft)</label>
+                    <input type="number" id="heightinputfeet" class="inputfield" placeholder="eg: 5" oninput="calculatebmi()">
+                </div> <br>
+                <div class="inputgroup">
+                    <label for="heightinputinches" class="inputlabel">Height (in)</label>
+                    <input type="number" id="heightinputinches" class="inputfield" placeholder="eg: 9" oninput="calculatebmi()">
+                </div><br>
+                <div class="inputgroup">
+                    <label for="weightinputimperial" class="inputlabel">Weight (lbs)</label>
+                    <input type="number" id = "weightinputimperial" class = "inputfield" placeholder="eg: 150" oninput="calculatebmi()">
+                </div>
+            </div>
+        </div>
+
+        <div id="resultbox" class="resultdisplay status-default">
+            <div class="bmilabel">Your BMI Score:</div>
+            <div id="bmivalue" class="bmivalue">0.00</div>
+            <div id="assessmenttext" class="assessmenttext">Enter your details above.</div>
+        </div>
+    </div>
+    
+    <script src="bmi.js"></script>
+</body>
+</html>
