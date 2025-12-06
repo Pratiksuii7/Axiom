@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projectile Motion Simulator</title>
+    <link rel="stylesheet" href="projectile.css">
+</head>
+<body>
+    
+  <h1>Projectile Motion Simulator</h1>
+  <div class="simulator-container">
+      <div class="controls-panel">
+          <a href="/index.html">Back</a> 
+    <h2>Simulation Inputs </h2>
+    <div class="input-group">
+        <label for="angle">Angle (Degrees)</label>
+        <input type="number" id="angle" value="45" min="0" max="90">
+    </div>
+
+    <div class="input-group">
+        <label for="velocity">Initial Speed (m/s)</label>
+    <input type="number" id="velocity" value="20" min="1">
+     </div>   
+
+     <div class="input-group">
+        <label for="gravity">Gravity (m/s²)</label>
+        <input type="number" id="gravity" value="9.81" min="0.1">
+     </div>
+
+     <div class="input-group checkbox-group">
+        <input type="checkbox" id="drag">
+        <label for="drag">Enable Air Resistance</label>
+     </div>
+
+     <button onclick="simulateMotion()">Run Simulation</button>
+  </div>
+
+  <div class="output-panel" id="outputpanel">
+    <h2>Results and Trajectory</h2>
+
+    <div class="results-group">
+    <div class="output-group">
+        <label>Max Height: </label>
+        <span id="maxheight" class="result">0.00m</span>
+    </div>
+
+    <div class="output-group">
+        <label>Time Elapsed: </label>
+        <span id="timeofflight" class="result">0.00 s</span>
+    </div>
+
+    <div class="output-group">
+        <label>Horizontal Position: </label>
+        <span id="range" class="result">0.00 m</span>
+    </div>
+    </div>
+
+    <div class="graph-container">
+        <canvas id="trajectorycanvas" width="600" height="400"></canvas>
+    </div>
+  </div>
+</div>
+
+
+    <script src="projectile.js"></script>
+</body>
+</html>
