@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendulum Simulator</title>
+    <link rel="stylesheet" href="pendulum.css">
+</head>
+<body>
+
+   
+<header>
+    <h1>Pendulum<span style="color:#fff; font-size:14px; margin-left:5px; opacity:0.5;">Simulator</span></h1>
+    <div class="status" id="fpscounter">60 FPS</div>
+</header>
+
+<div class="mainarea">
+    <div class="sidebar">
+        
+        <div class="controlgroup">
+            <div class="labelrow">
+                <label>Rod Length (L)</label>
+                <span class="val" id="disp_len">200m</span>
+            </div>
+            <input type="range" id="in_len" min="50" max="400" value="200">
+        </div>
+
+        <div class="controlgroup">
+            <div class="labelrow">
+                <label>Gravity (g)</label>
+                <span class="val" id="disp_grav">9.81</span>
+            </div>
+            <input type="range" id="in_grav" min="1" max="20" step="0.1" value="9.8">
+        </div>
+
+        <div class="controlgroup">
+            <div class="labelrow">
+                <label>Mass (m)</label>
+                <span class="val" id="disp_mass">10kg</span>
+            </div>
+            <input type="range" id="in_mass" min="5" max="50" value="10">
+        </div>
+
+        <div class="controlgroup">
+            <div class="labelrow">
+                <label>Damping</label>
+                <span class="val" id="disp_damp">0.00</span>
+            </div>
+            <input type="range" id="in_damp" min="0" max="0.1" step="0.001" value="0.005">
+        </div>
+
+        <div class="controlgroup">
+            <div class="toggle-row">
+                <label>Show Trajectory</label>
+                <label class="switch">
+                    <input type="checkbox" id="chk_trail" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+            <div class="toggle-row">
+                <label>Show Phase Space</label>
+                <label class="switch">
+                    <input type="checkbox" id="chk_phase" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="btn-row">
+            <button class="primary" id="btn_reset">Reset</button>
+            <button class="secondary" id="btn_pause">Pause</button>
+        </div>
+
+        <div class="stats">
+            <div class="graphtitle">SYSTEM ENERGY</div>
+            <div class="statitem">
+                <span>Period (T)</span>
+                <span id="st_period">--</span>
+            </div>
+            <div class="statitem">
+                <span>Frequency</span>
+                <span id="st_freq">--</span>
+            </div>
+            <div class="statitem">
+                <span>Total Energy</span>
+                <span id="st_energy">0.00 J</span>
+            </div>
+            
+            <div class="energybar">
+                <div class="ke" id="bar_ke"></div>
+                <div class="pe" id="bar_pe"></div>
+            </div>
+            <div class="legend">
+                <div><span class="dot" style="background:var(--accent2)"></span>Kinetic</div>
+                <div><span class="dot" style="background:var(--accent)"></span>Potential</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="workspace" id="workspace">
+        <canvas id="sim"></canvas>
+        <div class="overlay">
+            <div class="graphbox">
+                <span class="graphtitle">Angular Displacement vs Time</span>
+                <canvas id="g_time" class="plot"></canvas>
+            </div>
+            <div class="graphbox" id="box_phase">
+                <span class="graphtitle">Phase Space (Angle vs Velocity)</span>
+                <canvas id="g_phase" class="plot"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+<script src="pendulum.js"></script>
+</body>
+</html>
