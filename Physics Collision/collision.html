@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Collisions</title>
+    <link rel="stylesheet" href="collision.css">
+</head>
+<body>
+
+    <div class="topbar">
+        <div class="brand">Collider <span style="color:var(--secondary)">Pro</span></div>
+        <div style="font-size: 12px; color: var(--text);">Physics Collision Engine</div>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <a href="/index.html">Back</a>
+            <div class="scrollarea">
+                <div class="sectionheader">Object A (red)</div>
+
+                <div class="controlblock" style="border-left: 3px solid var(--blockbone);">
+                    <div class="inputrow">
+                        <div class="labelrow">
+                            <span>Mass (kg)</span>
+                            <span id="labelm1" class="valuelabel">5.0</span>
+                        </div>
+                        <input type="range" id="m1slider" class="obj-one-slider" min="-15" max="50" step="0.5" value="5">
+                    </div>
+
+                    <div class="inputrow">
+                        <div class="labelrow">
+                            <span>Initial Velocity</span>
+                            <span id="labelv1" class="valuelabel">4.0</span>
+                        </div>
+                        <input type="range" id="v1slider" class="obj-one-slider" min="-15" max="15" step="0.1" value="4">
+                    </div>
+
+                    <div class="inputrow">
+                        <div class="labelrow">
+                            <span>Current Velocity</span>
+                            <span id="curv1" class="valuelabel" style="color: var(--blockbone);"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sectionheader">Object B (Blue)</div>
+                <div class="controlblock" style="border-left:3px solid var(--blocktwo);">
+                    <div class="inputrow">
+                        <div class="labelrow">
+                            <span>Mass (kg)</span>
+                            <span id="labelm2" class="valuelabel">10.0</span>
+                        </div>
+                        <input type="range" id="m2slider" class="obj-two-slider" min="1" max="50" step="0.5" value="10">
+                    </div>
+                    <div class="inputrow">
+                        <div class="labelrow">
+                            <span>Initial Velocity</span>
+                            <span id="labelv2" class="valuelabel">2.0</span>
+                        </div>
+                        <input type="range" id="v2slider" class="obj-two-slider" min="-15" max="15" step="0.1" value="-2">
+                    </div>
+                    <div class="inputrow">
+                        <div class="labelrow">
+                            <span>Current Velocity</span>
+                            <span id="curv2" class="valuelabel" style="color: var(--blocktwo);">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sectionheader">Simulation Control</div>
+                <div class="controlblock">
+                    <div class="buttonrow">
+                        <button id="startbtn" class="btn-primary">Start/Pause</button>
+                        <button id="resetbtn" class="btn-danger">Reset</button>
+                    </div>
+                    <div style="margin-top: 15px; font-size: 12px; color: #666;">
+                        1. Wall collisions are elastic.
+                        2. Friction is ignored.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="workarea">
+            <div class="simcanvas-container">
+                <canvas id="maincanvas"></canvas>
+                <div class="tooltip" id="simstatus">Ready</div>
+            </div>
+
+            <div class="stats-panel">
+                <div class="stat-box">
+                    <span class="stat-title">System Momentum</span>
+                    <span class="big-number" id="totalmom">0.00</span>
+                    <span class="stat-title" style="margin-top:auto;">Kinetic Energy</span>
+                    <span class="big-number" id="totalenergy">0.00</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="graphcanvas"></canvas>
+                </div>
+                <div class="collision-log" id="logbox">
+                    <div class="log-entry">System initialized...</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="collision.js"></script>
+</body>
+</html>
