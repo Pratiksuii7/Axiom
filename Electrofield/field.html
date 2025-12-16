@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electrofield</title>
+    <link rel="stylesheet" href="field.css">
+</head>
+<body>
+    <div class="ui-layer">
+        <div class="top-bar">
+        
+        <div class="logo">ELECTRO<span>STATICS</span></div>
+        <div class="tools">
+            <button class="btn btn-pos" id="addpos">+ Proton</button>
+            <button class="btn btn-neg" id="addneg">- Electron</button>
+            <button class="btn btn-clear" id="clearall">Clear All</button>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="panel-section">
+            <a href="/index.html">Back</a> <br><br>
+            <div class="label-row">
+                <span>Field Density</span>
+                <span class="val-disp" id="densval">High</span>
+            </div>
+            <input type="range" id="densinput" min="500" max="3000" step="100" value="1500">
+            
+            <div class="label-row">
+                <span>Flow Speed</span>
+                <span class="val-disp" id="speedval">1.0x</span>
+            </div>
+            <input type="range" id="speedinput" min="0.1" max="3.0" step="0.1" value="1.0">
+        </div>
+
+        <div class="panel-section">
+            <div class="label-row">
+                <span>Charge Magnitude</span>
+                <span class="val-disp" id="magval">5uC</span>
+            </div>
+            <input type="range" id="maginput" min="1" max="20" value="5">
+        </div>
+
+        <div class="panel-section">
+            <div class="chk-row checked" id="chkfield">
+                <span class="chk-box"></span>
+                <span>Show Field Vectors</span>
+            </div>
+            <div class="chk-row" id="chkgrid">
+                <span class="chk-box"></span>
+                <span>Show Grid Points</span>
+            </div>
+        </div>
+        
+        <div class="sensor-readout" id="coursorreadout">
+            MOUSE SENSOR:<br>
+            E: 0.00 N/C<br>
+            V: 0.00 V
+        </div>
+    </div>
+
+    <div class="stats-box">
+        <div class="stat-row">
+            <span>Particles</span>
+            <span id="partcount">0</span>
+        </div>
+        <div class="stat-row">
+            <span>Charges</span>
+            <span id="chargecount">0</span>
+        </div>
+        <div class="stat-row">
+            <span>Net System Energy</span>
+            <span id="sysenergy" style="color:var(--accent)">0.00 J</span>
+        </div>
+        <div style="margin-top:10px; font-size:10px; color:#555;">
+            * Approximated simulation
+        </div>
+    </div>
+</div>
+
+    <div class="main-area">
+        <canvas id="fieldcanvas"></canvas>
+        <canvas id="objcanvas"></canvas>
+    </div>
+
+    <div class="tooltip" id="tooltip"></div>
+
+    <script src="field.js"></script>
+</body>
+</html>
