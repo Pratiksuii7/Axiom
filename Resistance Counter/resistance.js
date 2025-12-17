@@ -1,4 +1,5 @@
-function update_band_color(band_id, color_name) {
+//my 4th project for axiom 
+function update_band_color(band_id, color_name) { // i read this in class 9 and now i am making it lol
             const graphic_element = document.getElementById(band_id);
             const prefix = 'bg-color-';
             graphic_element.className = graphic_element.className.split(' ').filter(c => !c.startsWith(prefix)).join(' ');

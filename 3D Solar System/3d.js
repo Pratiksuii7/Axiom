@@ -1,3 +1,4 @@
+//i have to do it fast cuz its too late in night
 let scene, camera, renderer, controls;
 let clock = new THREE.Clock();
 
@@ -157,6 +158,7 @@ function onWindowResize() {
   renderer.setSize(container.clientWidth, container.clientHeight);
 }
 
+//almost half done
 function addStars() {
   const starGeometry = new THREE.BufferGeometry();
   const starCount = 10000;

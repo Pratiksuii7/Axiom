@@ -1,4 +1,5 @@
- const coolPi = 3.14159;
+ // ahh need to finish then zzzzzzz
+ const coolPi = 3.14159; //lol
         const inputArea = document.getElementById('stuff-go-here');
         const answerSpot = document.getElementById('the-magic-number');
 

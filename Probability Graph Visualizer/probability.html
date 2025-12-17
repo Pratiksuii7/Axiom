@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probability Graph Visualizer</title>
+    <link rel="stylesheet" href="probability.css">
+</head>
+<body>
+    <div class="app-header">
+        <div class="logo-area">
+            <div class="logo-icon"></div>
+            <div class="logo-text">Probability Graph Visualizer</div>
+        </div>
+        <div class="header-actions">
+            <button class="btn-small" onclick="exportdata()">CSV</button>
+            <button class="btn-small" onclick="exportimage()">PNG</button>
+            <button class="btn-small" style="border-color: var(--primary); color: var(--primary);">PRO</button>
+        </div>
+    </div>
+
+    <div class="layout-grid">
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <div class="section-title">Distribution</div>
+                <div class="dist-card active" onclick="setDist('norm', this)">
+                    <div class="dist-card-icon">N</div>
+                    <div class="dist-name">Normal</div>
+                </div>
+                <div class="dist-card" onclick="setDist('binom', this)">
+                    <div class="dist-card-icon">B</div>
+                    <div class="dist-name">Binomial</div>
+                </div>
+                <div class="dist-card" onclick="setDist('pois', this)">
+                    <div class="dist-card-icon">P</div>
+                    <div class="dist-name">Poisson</div>
+                </div>
+                <div class="dist-card" onclick="setDist('exp', this)">
+                    <div class="dist-card-icon">E</div>
+                    <div class="dist-name">Expon</div>
+                </div>
+                <div class="dist-card" onclick="setDist('geo', this)">
+                    <div class="dist-card-icon">G</div>
+                    <div class="dist-name">Geometric</div>
+                </div>
+                <div class="dist-card" onclick="setDist('uni', this)">
+                    <div class="dist-card-icon">U</div>
+                    <div class="dist-name">Uniform</div>
+                </div>
+            </div>
+        <div class="sidebar-section">
+            <div class="section-title">Parameters</div>
+            <div id="controls-area">
+
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="section-title">View Settings</div>
+            <div class="slider-group">
+                <div class="slider-header">
+                    <span>X axis Range</span>
+                    <span class="slider-val" id="disp_range">100</span>
+                </div>
+                <input type="range" id="sl_range" min="10" max="500" step="10" value="100">
+            </div>
+        </div>
+    </div>
+
+    <div class="stage-area">
+        <div class="stage-tabs">
+            <div class="tab active" onclick="switchTab('graph', this)">Graph Visualisation</div>
+            <div class="tab" onclick="switchTab('data', this)">Data Table</div>
+        </div>
+
+        <div class="canvas-container" id="view-graph">
+            <canvas id="mainCanvas"></canvas>
+            <div class="tooltip" id="tooltip">
+                <div class="tooltip-row">
+                    <span class="tooltip-label">X:</span>
+                    <span class="tooltip-val" id="tt-y">0.00</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-table-view" id="view-data">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>X value</th>
+                        <th>Probability(x)</th>
+                        <th>Cumulative (f(x))</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="sidebar info-panel">
+        <div class="sidebar-section">
+            <div class="section-title">Statistic(Info)</div>
+            <div class="stat-card">
+                <div class="stat-big" id="stat-mean">0.00</div>
+                <div class="stat-desc">Mean (expected value)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-big" id="stat-var">0.00</div>
+                <div class="stat-desc">Variance</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-big" id="stat-sd">0.00</div>
+                <div class="stat-desc">Standard Deviation</div>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="section-title">Formula</div>
+            <div class="formula-display" id="formula-box">f(x) = </div>
+        </div>
+    </div>
+
+    <div class="sidebar-section" style="flex:1 /*i am making easier or harder? lol*/">
+        <div class="section-title">
+            Probability Calculator
+        </div>
+        <div class="calc-box">
+            <div style="font-size: 12px; margin-bottom: 5px;color:#aaa">Find (x<=k)</div>
+            <input type="number" id="calc-k" class="calc-input" placeholder="enter k value">
+            <div class="header-actions" style="margin-top:10px;">
+                <button class="btn-small" style="width: 100%;" onclick="calculateProb()">Calculate</button>
+            </div>
+            <div class="calc-res" id="calc-output">Result: </div>
+        </div>
+    </div>
+    </div>
+
+</div>
+    <div class="toast" id="toast">Data exported</div>
+
+
+
+    <script src="probability.js"></script>
+</body>
+</html>

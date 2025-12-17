@@ -1,3 +1,5 @@
+//there is so much js waiting for me 
+//adding logic at night is hardest man 
 const CANVAS = document.getElementById('trajectorycanvas');
 const CONTEXT = CANVAS.getContext('2d');
 const OUTPUTPANEL = document.getElementById('outputpanel');
