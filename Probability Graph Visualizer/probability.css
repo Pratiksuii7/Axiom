@@ -192,3 +192,212 @@
             border-radius: 4px;
             font-size: 12px;
         }
+        input[type=range]{
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+            margin: 0;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            transition: 0.2s;
+        }
+        input[type=range]::-webkit-slider-thumb{
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            margin-top: -6px;
+            border: 2px solid var(--primary);
+            transition: 0.2s;
+        }
+        input[type=range]::hover::-webkit-slider-thumb{
+            transform: scale(1.1);
+            background: var(--primary);
+        }
+        /* boringgggg */
+        .stage-area{
+            position: relative;
+            background: #080808;
+            display: flex;
+            flex-direction: column;
+        }
+        .stage-tabs{
+            height: 40px;
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+        }
+        .tab{
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 13px;
+            border-right: 1px solid var(--border);
+            transition: 0.2s;
+        }
+        .tab:hover{
+            color: white;
+            background: var(--bg-panel-light);
+        }
+        .tab:active{
+            color: var(--primary);
+            background: #080808;
+            border-bottom: 2px solid var(--primary);
+        }
+        .canvas-container{
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+        canvas{
+            display: block;
+            cursor: crosshair;
+        }
+        .tooltip{
+            position: absolute;
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.1s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+        .tooltip-row{
+            display: flex;
+            gap: 15px;
+            margin-bottom: 2px;
+            justify-content: space-between;
+        }
+        .tooltip-label{
+            color: var(--text-muted);
+        }
+        .tooltip-val{
+            color: var(--primary);
+            font-family: monospace;
+        }
+        .info-panel{
+            background: var(--bg-panel);
+            border-left: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;;
+        }
+        .stat-card{
+            background: var(--bg-panel-light);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .stat-big{
+            font-size: 24px;
+            font-weight: 700;
+            font-family: monospace;
+            color: white;
+        }
+        .stat-desc{
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .formula-display{
+            font-family: 'Times New Roman', serif;
+            font-style: italic; /* i am first time umaking the font italic loll */
+            font-size: 16px;
+            padding: 15px;
+            text-align: center;
+            color: #fff;
+            line-height: 1.4;
+        }
+        .calc-box{
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .calc-input{
+            width: 100%;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            padding: 8px;
+            color: white;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 5px 0;
+        }
+        .calc-res{
+            margin-top: 10px;
+            text-align: right;
+            color: var(--success);
+            font-weight: bold;
+            font-family: monospace;
+        }
+        .data-table-view{
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg-dark);
+            overflow: auto;
+            padding: 20px;
+            display: none;
+        }
+        .data-table-view.show{
+            display: block;
+        }
+        table{
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px; /* looks good? */
+        }
+        th{
+            text-align: left;
+            padding: 10px;
+            border-bottom: 2px solid var(--border);
+            color: var(--text-muted);
+            top: 0;
+            position: sticky;
+            background: var(--bg-dark);
+        }
+        td{
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--border);
+            font-family: monospace;
+        }
+        tr:hover td{
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .toast{
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            color: white;
+            border-radius: 6px;
+            font-size: 14px;
+            transform: translateY(100px);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 100;
+        }
+        .back{
+            display: flex;
+            align-items: center;
+        }
+        a{
+            text-decoration: none;
+            color: var(--primary);
+        }
+        /*completed finnally*/
+
+        

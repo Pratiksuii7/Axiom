@@ -19,7 +19,7 @@ const APP = {
     }
 };
 
-const cvs = document.getElementById('maincanvas');
+const cvs = document.getElementById('mainCanvas');
 const ctx = cvs.getContext('2d');
 const controlsarea = document.getElementById('controls-area');
 const tt = document.getElementById('tooltip');
@@ -163,7 +163,8 @@ function setDist(mode, el){
     buildControls();
     draw();
 }
-function buildControls(mode){
+function buildControls(){
+    const mode = APP.mode;
     controlsarea.innerHTML = '';
     //here comes the scary part ....
     const configs = {
@@ -213,7 +214,7 @@ window.updateParam = (key, val) =>{
         if (APP.params.min >= APP.params.max) {
             if (key === 'min') {
                  APP.params.max = APP.params.min+1;
-            } else App.params.min = APP.params.max-1;
+            } else APP.params.min = APP.params.max-1;
         }
     }
     draw();
@@ -232,7 +233,7 @@ function resize(){
 function draw(){
     ctx.clearRect(0,0,APP.w, APP.h);
     drawGrid();
-    const mod = DistLogic(APP.mode);
+    const mod = DistLogic[APP.mode];
     const mean = mod.mean();
     const variance = mod.var();
     const sd = Math.sqrt(variance);
@@ -247,7 +248,7 @@ function draw(){
     let xMax = APP.view.range / 2;
     if(APP.mode ==='exp' || APP.mode ==='geo'|| APP.mode ==='binom'|| APP.mode ==='poiss'){
         xMin = -10;
-        xMax = App.view.range - 10;
+        xMax = APP.view.range - 10;
     }
    const padding = 60;
    const chartW = APP.w - padding*2;
@@ -271,8 +272,8 @@ function draw(){
     for(let i=0; i<=steps; i++){
         const px = i;
         const wx = xMin + (px-padding) / chartW * (xMax - xMin);
-        const py = (APP.h - padding) - (wy/maxY) * chartH;
         const wy = mod.pdf(wx);
+        const py = (APP.h - padding) - (wy/maxY) * chartH;
         if(i==0) ctx.moveTo(px, py);
         else ctx.lineTo(px, py);
         if(i%5===0) APP.dataPoints.push({x:wx, y:wy});
@@ -283,7 +284,7 @@ function draw(){
     ctx.closePath();
     ctx.fill();
    }else{
-    const barW = (chart / (xMax - xMin)) * 0.6;
+    const barW = (chartW / (xMax - xMin)) * 0.6;
     for(let k = Math.ceil(xMin); k<= Math.floor(xMax);k++){
         const val = mod.pmf(k);
         if(val>0.0001){
@@ -364,7 +365,7 @@ function handleHover(e){
     let closest = null;
     let minDist = 100;
     const pad = 60;
-    let xMin = APP.view.range / 2;
+    let xMin = -APP.view.range / 2;
     let xMax = APP.view.range/2;
     if(APP.mode ==='exp'|| APP.mode ==='geo'|| APP.mode==='binom'||APP.mode==='poiss'){
         xMin = -10;
@@ -401,7 +402,7 @@ function switchTab(t,el){
     el.classList.add('active');
     if (t==='graph') {
         document.getElementById('view-graph').style.display = 'block';
-        document.getElementById('view-data').classList.add('show');
+        document.getElementById('view-data').classList.remove('show');
     } else{
         document.getElementById('view-graph').style.display = 'none';
         document.getElementById('view-data').classList.add('show');
@@ -424,21 +425,6 @@ function updateTableIfNeeded(mod){
         tbody.appendChild(tr);
     });
 }
-function uppdateTableIfNeeded(mod){
-    const tbody = document.querySelector('#dataTable tbody');
-    if(!document.getElementById('view-data').classList.contains('show')) return; //as always 1 line is enough
-    tbody.innerHTML = '';
-    let pts = APP.dataPoints;
-    if (pts.length>200) {
-        pts = pts.filter((_,i)=> i%Math.floor(pts.length/200)===0);
-    }
-    pts.forEach(p=>{
-        const tr = document.createElement('tr');
-        const cdf = mod.cdf(p.x);
-        tr.innerHTML = `<td>${p.x.toFixed(2)}</td><td>${p.y.toFixed(5)}</td><td>${cdf.toFixed(5)}</td>`;
-        tbody.appendChild(tr); 
-    });
-}
 function calculateProb(){
     const k = parseFloat(document.getElementById('calc-k').value);
     if(isNaN(k)) return;
@@ -453,10 +439,10 @@ function  showToast(msg){
     t.innerText = msg;
     t.classList.add ('show');
     setTimeout(()=>{
-        t.classList.remove('active'), 3000;
-    });
+        t.classList.remove('show');
+    }, 3000);
 }
-window.exportData = () =>{
+window.exportdata = () =>{
     let csv = "X, Probability_P(x)\n";
     APP.dataPoints.forEach(p=>{
         csv += `${p.x}, ${p.y}\n`;
@@ -469,7 +455,7 @@ window.exportData = () =>{
     a.click();
     showToast("CSV Downloaded :d enjoy")  
 };
-window.exportImage = () => {
+window.exportimage = () => {
     const link = document.createElement('a');
     link.download = `statflow_graph.png`;
     link.href = cvs.toDataURL();

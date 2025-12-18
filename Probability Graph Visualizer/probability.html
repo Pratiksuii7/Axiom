@@ -22,6 +22,9 @@
     <div class="layout-grid">
         <div class="sidebar">
             <div class="sidebar-section">
+                <div class="back">
+                <a href="/index.html">Back</a>
+                </div> 
                 <div class="section-title">Distribution</div>
                 <div class="dist-card active" onclick="setDist('norm', this)">
                     <div class="dist-card-icon">N</div>
@@ -70,7 +73,6 @@
     <div class="stage-area">
         <div class="stage-tabs">
             <div class="tab active" onclick="switchTab('graph', this)">Graph Visualisation</div>
-            <div class="tab" onclick="switchTab('data', this)">Data Table</div>
         </div>
 
         <div class="canvas-container" id="view-graph">
@@ -78,6 +80,10 @@
             <div class="tooltip" id="tooltip">
                 <div class="tooltip-row">
                     <span class="tooltip-label">X:</span>
+                    <span class="tooltip-val" id="tt-x">0.00</span>
+                </div>
+                <div class="tooltip-row">
+                    <span class="tooltip-label">P(x):</span>
                     <span class="tooltip-val" id="tt-y">0.00</span>
                 </div>
             </div>
