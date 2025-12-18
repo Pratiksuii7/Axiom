@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wave Simulator</title>
+    <link rel="stylesheet" href="wave.css">
+</head>
+<body>
+
+    <h1>Wave Simulator</h1>
+    <div class="subtext">A interactive wave simulator designed to observe wave.</div>
+
+    <div class="maincontainer">
+        <div class="controlpanel">
+            <div class="panelsection">
+                <h3>Wave Source A</h3>
+                <div class="controlgroup">
+                    <label>
+                        Amplitude
+                        <span class="valuelabel" id="amp1val">50</span>
+                    </label>
+                    <input type="range" id="amp1input" class="wave1slider" min="0" max="100" value="50">
+                </div>
+                <div class="controlgroup">
+                    <label>
+                        Wavelength
+                        <span class="valuelabel" id="len1val">100</span>
+                    </label>
+                    <input type="range" id="len1input" class="wave1slider" min="20" max="300" value="100">
+                </div>
+            </div>
+
+            <div class="panelsection">
+                <h3 class="secwave">Wave Source B</h3>
+                <div class="controlgroup">
+                    <label>Amplitude 
+                        <span class="valuelabel" id="amp2val">50</span></label>
+                        <input type="range" id="amp2input" class="wave2slider" min="0" max="100" value="50">
+                </div>
+                <div class="controlgroup">
+                    <label>Wavelength 
+                        <span class="valuelabel" id="len2val">120</span></label>
+                        <input type="range" id="len2input" class="wave2slider" min="20" max="300" value="120">
+                </div>
+            </div>
+
+            <div class="panelselection">
+                <h3 class="globalset">Controls</h3>
+                <div class="controlgroup">
+                    <label>Phase Difference
+                        <span class="valuelabel" id="phaseval">0</span>
+                    </label>
+                    <input type="range" id="phaseinput" class="globalslider" min="0" max="360" value="0">
+                </div>
+                <div class="controlgroup">
+                    <label>Propagation Speed
+                        <span class="valuelabel" id="speedval">50%</span>
+                    </label>
+                    <input type="range" id="speedinput" class="globalslider" min="0" max="100" value="50">
+                </div>
+            </div>
+        </div>
+
+        <div class="displayarea">
+            <div class="canvasbox">
+                <canvas id="maincanvas"></canvas>
+                <div class="canvlabel">Wave Displacement View</div>
+            </div>
+            <div class="canvasbox">
+                <canvas id="intensitycanvas"></canvas>
+                <div class="canvlabel">Resultant Intensity View(Heatmap)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottomstatus">
+        <div class="statusitem">
+            <div class="statusdot dot1"></div>
+            Source A
+        </div>
+        <div class="statusitem">
+            <div class="statusdot dot2"></div>
+            Source B
+        </div>
+        <div class="statusitem">
+            <div class="statusdot dotres"></div>
+            Resultant Wave
+        </div>
+    </div>
+
+
+    <script src="wave.js"></script>
+</body>
+</html>
