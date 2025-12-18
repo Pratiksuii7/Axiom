@@ -1,0 +1,204 @@
+/*some designing stuffs */
+body{
+    margin:0;
+    padding: 20px;
+    background-color: #121212;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+h1{
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #00d2ff;
+    margin-bottom: 10px;
+}
+.subtext{
+    text-align: center;
+    color: #888;
+    margin-bottom: 30px;
+    font-size: 0.9em;
+}
+/* i wont add to much css in this tool */
+.maincontainer{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    justify-content: center;
+}
+.controlpanel{
+    flex: 1;
+    min-width: 300px;
+    background: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+    height: fit-content;
+}
+.panelsection{
+    margin-bottom: 25px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+    /*hattrick of bottoms lol */
+}
+.panelsection:last-child{
+    border-bottom: none;;
+}
+h3{
+    color: #bb86fc;
+    margin-top: 0;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    font-weight: normal;
+}
+h3.secwave{
+    color: #03dac6;
+}
+h3.globalset{
+    color: #ffb74d;
+}
+.controlgroup{
+    margin-bottom: 16px;
+}
+label{
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85 em;
+    color: #aaa;
+    margin-bottom: 5px;
+}
+.valuelabel{
+    font-family: monospace;
+    color: #fff;
+}
+input[type="range"]{
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: #333;
+    border-radius: 3px;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+input[type="range"]:hover{
+    opacity: 1;
+}
+input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #e0e0e0;
+    border-radius: 50%;
+    cursor: pointer;
+}
+input[type="range"].wave1slider::-webkit-slider-thumb {
+    background: #bb86fc;
+}
+
+input[type="range"].wave2slider::-webkit-slider-thumb {
+    background: #03dac6;
+}
+
+input[type="range"].globalslider::-webkit-slider-thumb {
+    background: #ffb74d;
+}
+
+input[type="range"]::-moz-range-thumb {
+     width: 16px;
+     height: 16px;
+     background: #e0e0e0;
+     border-radius: 50%;
+     cursor: pointer;
+     box-shadow: 0 0 5px rgba(0,0,0,0.5);
+     border: none;
+}
+
+.displayarea{
+    flex: 2;
+    min-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.canvasbox{
+    background: #000;
+    border: 2px solid #333;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+canvas{
+    display: block;
+    width: 100%;
+    background: radial-gradient(circle at center, #111 0%, #000 100%);
+}
+#maincanvas{
+    height: 400px;
+    border-bottom: 1px solid #333;
+}
+#intensitycanvas{
+    height: 80px;
+}
+.canvlabel{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0,0,0,0.7);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75em;
+    color: #aaa;
+    pointer-events: none;
+}
+.bottomstatus{
+    background: #1e1e1e;
+    color: #888;
+    display: flex;
+    padding: 15px;
+    margin-top: 20px;
+    border: 1px solid #333;
+    border-radius: 30px;
+    gap: 20px;
+    display: flex;
+}
+.statusitem{
+    display: flex;
+    align-items: center;
+}
+.statusdot{
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+.dot1{
+    background: #bb86fc;
+}
+.dot2{
+    background: #03dac6;
+}
+.dotres{
+    background: #fff;
+}
+/* little bit responsiveness only little */
+@media (max-width:850px){
+    .displayarea{
+        min-width: 100%;
+    }
+    #maincanvas{
+        height: 300px;
+    }
+}
+a{
+    text-decoration: none;
+    color: #00d2ff;
+}
