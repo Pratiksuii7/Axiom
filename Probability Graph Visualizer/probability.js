@@ -424,3 +424,56 @@ function updateTableIfNeeded(mod){
         tbody.appendChild(tr);
     });
 }
+function uppdateTableIfNeeded(mod){
+    const tbody = document.querySelector('#dataTable tbody');
+    if(!document.getElementById('view-data').classList.contains('show')) return; //as always 1 line is enough
+    tbody.innerHTML = '';
+    let pts = APP.dataPoints;
+    if (pts.length>200) {
+        pts = pts.filter((_,i)=> i%Math.floor(pts.length/200)===0);
+    }
+    pts.forEach(p=>{
+        const tr = document.createElement('tr');
+        const cdf = mod.cdf(p.x);
+        tr.innerHTML = `<td>${p.x.toFixed(2)}</td><td>${p.y.toFixed(5)}</td><td>${cdf.toFixed(5)}</td>`;
+        tbody.appendChild(tr); 
+    });
+}
+function calculateProb(){
+    const k = parseFloat(document.getElementById('calc-k').value);
+    if(isNaN(k)) return;
+    const mod = DistLogic[APP.mode];
+    const p = mod.cdf(k);
+    const out = document.getElementById('calc-output');
+    out.innerHTML = `P(X ≤ ${k}) = <span style="color:white">${p.toFixed(5)}</span>`;
+}
+//why is code messy
+function  showToast(msg){
+    const t = document.getElementById('toast');
+    t.innerText = msg;
+    t.classList.add ('show');
+    setTimeout(()=>{
+        t.classList.remove('active'), 3000;
+    });
+}
+window.exportData = () =>{
+    let csv = "X, Probability_P(x)\n";
+    APP.dataPoints.forEach(p=>{
+        csv += `${p.x}, ${p.y}\n`;
+    });
+    const blob = new Blob([csv], {type:'text/csv'});
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `statflow_${APP.mode}_data.csv`;
+    a.click();
+    showToast("CSV Downloaded :d enjoy")  
+};
+window.exportImage = () => {
+    const link = document.createElement('a');
+    link.download = `statflow_graph.png`;
+    link.href = cvs.toDataURL();
+    link.click();
+    showToast("Image saved enjoyy");
+};
+init();

@@ -101,3 +101,94 @@
             cursor: pointer;
             transition: 0.2s;
         }
+        .btn-small:hover{
+            background: var(--border);
+            color: white;
+        }
+        .layout-grid{
+          display: grid;
+          height: calc(100vh - 60px);/* ah using calc for 4th time */
+          overflow: hidden;
+          grid-template-columns: 320px 1fr 300px;
+        }
+        .sidebar {
+            background: var(--bg-panel);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        .sidebar-section{
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            animation: slideRight 0.4s ease-out;
+        }
+        .section-title{
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            margin-bottom: 15 px;
+        }
+        .section-title::after{
+            content: '';
+            flex: 1;
+            background: var(--border);
+            height: 1px;
+        }
+        .dist-grid{
+            display: grid;
+            grid-template-columns: 1fr 1fr;/* i guess this will make it look good*/
+            gap: 8px;
+        }
+        .dist-card{
+            background: var(--bg-panel-light);
+            cursor: pointer;
+            text-align: center;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            transition: all 0.2s;
+        }
+        .dist-card:hover{
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .dist-card:active{
+            background: rgba(59, 130, 246, 0.2);
+            border-color: var(--primary);
+            color: white;
+        }
+        .dist-card-icon{
+            font-size: 16px;
+            margin-bottom: 5px;
+            font-family: serif;
+            color: var(--accent);
+            font-style: italic;
+        }
+        .dist-name{
+            font-size: 11px;
+            font-weight: 500;
+        }
+        .slider-group{
+            margin-bottom: 20px;
+        }
+        .slider-header{
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 13px;
+            justify-content: space-between;
+            color: #ddd;
+        }
+        .slider-val{
+            font-family: 'Courier New', monospace;
+            color: var(--primary);
+            background: rgba(59, 130, 246, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
