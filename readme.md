@@ -16,7 +16,7 @@
 <li>Pendulum Simulator - A simulator of pendulum where we can observe it and here, we can customize rod length, mass and etc.</li>
 <li>Charges Simulator - A simulator where we can simulate proton and electron and watch its magnetic field.</li>
 <li>Probability Graph Visualizer - A math tool where we can visualize the probability.It gives expressions too. </li>
-
+</ol>
 <h3>How to use it?</h3>
 <p>Go to https://toolsengine.vercel.app and enjoy using these unique tools.</p>
 
