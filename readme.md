@@ -3,7 +3,7 @@
 
 <h3>Description</h3>
 <p>Below here is a list of different tools present here:</p>
-<ol type="1>
+<ol type="1">
 <li>3D Solar System - A 3D simulator that simulates the solar system.Fun part: We can customize orbital speed too.</li>
 <li>BMI Calculator - A simple BMI calculator where we can calculate if we are underweight, overweight or normal.</li>
 <li>Wave Simulator - A simulator where we can simulate wave's, we can observe its heatmap, customize amplitude and wavelength too</li>
