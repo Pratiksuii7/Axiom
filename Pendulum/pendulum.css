@@ -296,4 +296,9 @@
         opacity: 0;
         transition: opacity 0.2s;
     }
+    a{
+        color: var(--accent);
+        text-decoration: none;
+        font-size: 14px;
+    }
     /* finished css finallllyyyy */
