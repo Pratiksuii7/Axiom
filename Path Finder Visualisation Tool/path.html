@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Path Finder Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!--lessss gooooo axiom is back special thanks to #reboot-->
+    <header>
+        <div class="title-section">
+            <h1>Path Finder Visualizer</h1>
+        </div>
+        <div class="controls">
+            <select id="algo-select">
+            <option value="dijkstra">Dijkstra's Algorithm </option> 
+            <option value="astar">A* Search</option>
+            <option value="bfs">Breadth-First Search (BFS)</option>
+            <option value="dfs">Depth-First Search (DFS)</option>
+            </select>
+            <select id="speed-select">
+                <option value="fast">Fast</option>
+                <option value="medium">Average/Medium</option>
+                <option value="slow">Slow</option>
+                <option value="instant">Instant</option>
+            </select>
+            <button id="gen-maze-btn" class="secondary">Generate Maze?</button>
+            <button id="clear-board-btn" class="clear-btn">Clear Board?</button>
+            <button id="visualize-btn">VISUALIZE?</button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3>Instructions</h3>
+                <p style="font-size: 0.85rem; color: #bbb; line-height: 1.38;">
+                    1. <b>Left Click</b> to add walls <br>
+                    2. <b>Right Click</b> to add weights aka Mud. <br>
+                    3. Drag <b>Green</b> to move Start point. <br>
+                    4/ Drag <b>Red</b> tp move End point. <br>
+                </p>
+            </div>
+            <div class="sidebar-section">
+                <h3>Legend</h3>
+                <div class="legend-item"><div class="box start"></div>Start Node</div>
+                <div class="legend-item"><div class="box end"></div>Target Node</div>
+                <div class="legend-item"><div class="box wall"></div>Wall</div>
+                <div class="legend-item"><div class="box weight">Weight (Mud)</div></div>
+            </div>
+            <div class="sidebar-section">
+                <h3>Activity log</h3>
+                <div id="stats-log" class="stats-output">
+                    > System Ready.... <br>
+                    > Grid Size: Calculating... <br>
+                    > Start Using this <br>
+                    > Waiting for user Input....
+                </div>
+            </div>
+        </aside>
+        <div class="canvas-wrapper" id="canvas-container">
+            <canvas id="gridCanvas"></canvas>
+        </div>
+    </div>
+    <div id="toast" class="toast">Algorithm Finished.</div>
+    <!--for now html is finished ig probab-->
+    <script src="path.js"></script>
+</body>
+</html>
