@@ -32,7 +32,7 @@ const STATE = {
     selectedalgo:'dijkstra',
     animationspeed:10,
 };
-const canvas = document.getElementById('gridcanvas');
+const canvas = document.getElementById('gridCanvas');
 const ctx = canvas.getContext('2d');
 const statslog =document.getElementById('stats-log');
 const toast = document.getElementById('toast');
@@ -52,7 +52,7 @@ class PriorityQueue{
     //lil break time
     //i am back
     swap(i1,i2){
-        const temp = this.head[i1];
+        const temp = this.heap[i1];
         this.heap[i1]=this.heap[i2];
         this.heap[i2]=temp;
     }
@@ -63,8 +63,9 @@ class PriorityQueue{
     dequeue(){
         if(this.heap.length===0)return null;
         if(this.heap.length===1) return this.heap.pop();
-        const item = this.hrap[0];
+        const item = this.heap[0];
         this.heap[0]=this.heap.pop();
+        this.heapifyDown();
         return item;
     }
     isEmpty(){
@@ -73,7 +74,7 @@ class PriorityQueue{
     heapifyUp(){
         let index = this.heap.length-1;
         while(index>0){
-            let parentIndex= this.heap.length-1;
+            let parentIndex= this.getParentIndex(index);
             if(this.heap[parentIndex].distance<=this.heap[index].distance) break;
             this.swap(index,parentIndex);
             index=parentIndex;
@@ -84,7 +85,10 @@ class PriorityQueue{
         while(this.getLeftChildIndex(index)<this.heap.length){
             let smallerChildIndex =this.getLeftChildIndex(index);
             let rightChildIndex=this.getRightChildIndex(index);
-            if(rightChildIndex<this.heap.length&&this.heap[rightChildIndex].distance<this.heap[smallerChildIndex].distance) break;
+            if(rightChildIndex<this.heap.length&&this.heap[rightChildIndex].distance<this.heap[smallerChildIndex].distance){
+                smallerChildIndex = rightChildIndex;
+            }
+            if(this.heap[index].distance<=this.heap[smallerChildIndex].distance) break;
             this.swap(index,smallerChildIndex);
             index= smallerChildIndex;
         }
@@ -164,8 +168,10 @@ function drawNode(node){
         color = CONFIG.wallcolor;
     }else if(node.isPath){
         color = CONFIG.pathcolor;
+    }else if(node.isWeight){
+        color = CONFIG.weightcolor;
     }else if(node.isVisited){
-        color=CONFIG.weightcolor;
+        color=CONFIG.visitedcolor;
     }
     ctx.fillStyle= color;
     if(node.isVisited&&!node.isStart&&!node.isEnd&&!node.isPath){
@@ -197,6 +203,18 @@ function getNodeFromPos(pos){
 canvas.addEventListener('mousedown',(e)=>{
     if(STATE.isRunning) return;
     const pos = getMousepos(e);
+    //debugging is so hard ahhhhhhhhhhhhhh
+    const node = getNodeFromPos(pos);
+    if(!node) return;
+    STATE.isMousePressed = true;
+    STATE.mouseButton = e.button === 0 ? 'left' : 'right';
+    if(node.isStart){
+        STATE.draggedNode = 'isStart';
+    } else if (node.isEnd){
+        STATE.draggedNode = 'isEnd';
+    } else {
+        handleDrawAction(node);
+    }
 });
 //i am so cooked its 12am almost
 canvas.addEventListener('mousemove',(e)=>{
@@ -257,17 +275,18 @@ function handleDrawAction(node){
         node.isWeight = true;
     }
     drawNode(node);
-}
+} 
 function runSelectedAlgorithm(instant=false){
     resetDistances();
     const algo = document.getElementById('algo-select').value;
-    const start =STATE.grid[STATE.startnode.row][STATE.endNode.col];
+    const start =STATE.grid[STATE.startnode.row][STATE.startnode.col];
+    const end = STATE.grid[STATE.endNode.row][STATE.endNode.col];
     logMsg(`Starting ${algo}.toupperCase()............`);
     let visitedNodesInOrder =[];
     const startTime =performance.now();
     switch(algo){
         case 'dijkstra':
-            visitedNodesInOrder=djkstra(start,end);
+            visitedNodesInOrder=dijkstra(start,end);
             break;
         case'astar':
             visitedNodesInOrder =aStar(start,end);
@@ -314,7 +333,7 @@ function aStar(startNode,endNode){
     while(!openSet.isEmpty()){
         const currentNode = openSet.dequeue();
         if(currentNode.isWall) continue;
-        if(currentNode.visited)continue;
+        if(currentNode.isVisited)continue;
         currentNode.isVisited = true;
         visitedOrder.push(currentNode);
         if(currentNode===endNode)return visitedOrder;
@@ -322,7 +341,7 @@ function aStar(startNode,endNode){
         //came back after breakfast helo
         for(const neighbor of neighbors){
             if(neighbor.isVisited||neighbor.isWall)continue;
-            let moveCost=neighbor.isWeight?CONFIG.weightCost:CONFIG.defaultcost;
+            let moveCost=neighbor.isWeight?CONFIG.weightcost:CONFIG.defaultcost;
             let tentativeG=currentNode.distance+moveCost;
             if(tentativeG<neighbor.distance){
                 neighbor.previousNode =currentNode;
@@ -350,10 +369,30 @@ function bfs(startNode,endNode){
         for(const neighbor of neighbors){
             if(!neighbor.isVisited&&!neighbor.isWall){
                 neighbor.previousNode = currentNode;
-                stack.push(neighbor);
+                neighbor.isVisited = true;
+                queue.push(neighbor);
             }
         }
 
+    }
+    return visitedOrder;
+}
+function dfs(startNode,endNode){
+    const visitedOrder=[];
+    const stack=[startNode];
+    startNode.isVisited=true;
+    while(stack.length){
+        const currentNode=stack.pop();
+        visitedOrder.push(currentNode);
+        if(currentNode===endNode) return visitedOrder;
+        const neighbors=getNeighbors(currentNode);
+        for(const neighbor of neighbors){
+             if(!neighbor.isVisited&&!neighbor.isWall){
+                neighbor.isVisited=true;
+                neighbor.previousNode=currentNode;
+                stack.push(neighbor);
+             }
+        }
     }
     return visitedOrder;
 }
@@ -374,7 +413,7 @@ function getNeighbors(node){
     const neighbors =[];
     const{col,row}=node;
     if(row>0)neighbors.push(STATE.grid[row-1][col]);
-    if(row<STATE.rows-1) neighbors.push(STATE,grid[row+1][col]);
+    if(row<STATE.rows-1) neighbors.push(STATE.grid[row+1][col]);
     if(col>0)neighbors.push(STATE.grid[row][col-1]);
     if(col<STATE.cols-1) neighbors.push(STATE.grid[row][col+1]);
     return neighbors;
@@ -440,7 +479,7 @@ function animatePath(endNode){
     const speedSelect=document.getElementById('speed-select').value;
     let delay=30;
     if(speedSelect==='fast')delay=10;
-    for(let i=0;i<getNodesInShortestPathOrder.length;i++){
+    for(let i=0;i<nodeInShortestPathOrder.length;i++){
         setTimeout(()=>{
             const node=nodeInShortestPathOrder[i];
             node.isPath=true;
@@ -465,7 +504,7 @@ function animatePath(endNode){
     }
 }
 function animateInstant(visitedNodes,endNode){
-    for(const node of nodes){
+    for(const node of visitedNodes){
         node.isVisited=true;
     }
     const path=getNodesInShortestPathOrder(endNode);
@@ -480,14 +519,14 @@ function getNodesInShortestPathOrder(endNode){
     const nodeInShortestPathOrder=[];
     let currentNode=endNode;
     while(currentNode!==null){
-        nodesInShortestPathOrder.unnshift(currentNode);//these r so long
+        nodeInShortestPathOrder.unshift(currentNode);//these r so long
         currentNode = currentNode.previousNode;
         if(nodeInShortestPathOrder.length>STATE.rows*STATE.cols)break;
     }
-    if(nodeInShortestPathOrder.length===1&&!nodesInShortestPathOrder[0].isStart){
+    if(nodeInShortestPathOrder.length===1&&!nodeInShortestPathOrder[0].isStart){
         return[];
     }
-    return nodesInShortestPathOrder;
+    return nodeInShortestPathOrder;
 }
 //so much code done still have to do more waaaaaa
 function generateRandomMaze(){
@@ -515,13 +554,16 @@ function generateRecursiveMaze(){
     //lil break
     for(let c=0;c<STATE.cols;c++){
         STATE.grid[0][c].isWall=true;
-        STATE.grid[STATE.endNode.row][STATE.endNode.col];
-        start.isWall =false;
-        end.isWall = false;
-        getNeighbors(start).forEach(n=>n.isWall=false);
-        getNeighbors(end).forEach(n=>n.isWall=false);
-        drawGrid();
+        STATE.grid[STATE.rows-1][c].isWall=true;
     }
+    const start=STATE.grid[STATE.startnode.row][STATE.startnode.col];
+    const end=STATE.grid[STATE.endNode.row][STATE.endNode.col];
+    start.isWall =false;
+    end.isWall = false;
+    getNeighbors(start).forEach(n=>n.isWall=false);
+    getNeighbors(end).forEach(n=>n.isWall=false);
+    addInnerWalls(true, 1, STATE.cols-2, 1, STATE.rows-2);
+    drawGrid();
 }
     function addInnerWalls(h,minX,maxX,minY,maxY){
         if(h){
@@ -550,5 +592,74 @@ function generateRecursiveMaze(){
     }
     //so much tired af
    function addVWall(minY,maxY,x){
-
+     const hole = Math.floor(randomInt(minY,maxY)/2)*2+1;
+     for(let i=minY;i<=maxY;i++){
+        if(i!==hole&&STATE.grid[i]&&STATE.grid[i][x]){
+            if(!STATE.grid[i][x].isStart&& !STATE.grid[i][x]){
+                STATE.grid[i][x].isWall=true;
+            }
+        }
+     }
    }
+   function randomInt(min,max){
+    return Math.floor(Math.random()*(max-min+1)+min);
+   }
+   function clearBoard(keepWalls=false){
+    if(STATE.isRunning)return;
+    for(let r=0;r<STATE.rows;r++){
+        for(let c=0;c<STATE.cols;c++){
+            const node = STATE.grid[r][c];
+            node.isVisited = false;
+            node.isPath=false;
+            node.distance=Infinity;
+            node.totalDistance=Infinity;
+            node.previousNode = null;
+            if(!keepWalls){
+                node.isWall=false;
+                node.isWeight=false;
+            }
+        }
+    }
+    STATE.isFinished=false;
+    logMsg(keepWalls?"Path cleared":"Board reset");
+    drawGrid();
+   }
+   function logMsg(msg){
+    const line =document.createElement('div');
+    line.innerHTML = `> ${msg}`;
+    statslog.prepend(line);
+    if(statslog.children.length>20){
+   statslog.removeChild(statslog.lastChild);
+    }
+   }
+   //almost done
+   function ShowToast(msg){
+    toast.innerText = msg;
+    toast.classList.add('show');
+    setTimeout(()=>{
+        toast.classList.remove('show');
+    },3000);
+   }
+   document.getElementById('visualize-btn').addEventListener('click',()=>{
+    if(STATE.isRunning)return;
+    clearPathOnly();
+    runSelectedAlgorithm();
+   });
+   document.getElementById('clear-board-btn').addEventListener('click',()=>{
+    clearBoard(false);
+   });
+   document.getElementById('gen-maze-btn').addEventListener('click',()=>{
+    generateRandomMaze();
+   });
+   let resizeTimeout;
+   window.addEventListener('resize',()=>{
+    clearTimeout(resizeTimeout);
+    resizeTimeout=setTimeout(()=>{
+        initgrid();
+    },200);
+   });
+   window.onload=()=>{
+    initgrid();
+    logMsg("Sytem's ready.yay")
+   };
+   //finally done now lets see it
