@@ -240,3 +240,166 @@ canvas.addEventListener('mousemove',(e)=>{
         handleDrawAction(node);
     }
 });
+//i am back
+window.addEventListener('mouseup',()=>{
+    STATE.isMousePressed = false;
+    STATE.draggedNode=null;
+});
+canvas.addEventListener('contextmenu',(e)=>e.preventDefault());
+
+function handleDrawAction(node){
+    if(node.isStart||node.isEnd) return;
+    if(STATE.mouseButton==='left'){
+        node.isWeight=false;
+        node.isWall = true;
+    } else{
+        node.isWall=false;
+        node.isWeight = true;
+    }
+    drawNode(node);
+}
+function runSelectedAlgorithm(instant=false){
+    resetDistances();
+    const algo = document.getElementById('algo-select').value;
+    const start =STATE.grid[STATE.startnode.row][STATE.endNode.col];
+    logMsg(`Starting ${algo}.toupperCase()............`);
+    let visitedNodesInOrder =[];
+    const startTime =performance.now();
+    switch(algo){
+        case 'dijkstra':
+            visitedNodesInOrder=djkstra(start,end);
+            break;
+        case'astar':
+            visitedNodesInOrder =aStar(start,end);
+            break;
+        case 'bfs':
+            visitedNodesInOrder = bfs(start,end);
+            break;
+        case 'dfs':
+            visitedNodesInOrder=dfs(start,end);
+            break;
+    }
+    const duration =(performance.now()-startTime).toFixed(2);
+    logMsg(`Algorithm finished in ${duration}ms. Nodes visited: ${visitedNodesInOrder.length}`);
+    if(instant){
+        animateInstant(visitedNodesInOrder,end);
+    }else{
+        animateAlgorithm(visitedNodesInOrder,end);
+    }
+}
+function dijkstra(startNode,endNode){
+    const visitedOrder=[];
+    startNode.distance=0;
+    const pq= new PriorityQueue();
+    pq.enqueue(startNode);
+    const allNodes = getAllNodesFlat();
+    while(!pq.isEmpty()){
+        const closestNode =pq.dequeue();
+        if(closestNode.isWall) continue;
+        if(closestNode.distance===Infinity) break;
+        closestNode.isVisited = true;
+        visitedOrder.push(closestNode);
+        if(closestNode===endNode)return visitedOrder;
+        updateUnvisitedNeighbors(closestNode,pq);
+    }
+    return visitedOrder;
+}
+function aStar(startNode,endNode){
+    const visitedOrder =[];
+    startNode.distance = 0;
+    startNode.totalDistance = 0;
+    startNode.heuristic=0;
+    const openSet =new PriorityQueue();
+    openSet.enqueue(startNode);
+    while(!openSet.isEmpty()){
+        const currentNode = openSet.dequeue();
+        if(currentNode.isWall) continue;
+        if(currentNode.visited)continue;
+        currentNode.isVisited = true;
+        visitedOrder.push(currentNode);
+        if(currentNode===endNode)return visitedOrder;
+        const neighbors = getNeighbors(currentNode);
+        //came back after breakfast helo
+        for(const neighbor of neighbors){
+            if(neighbor.isVisited||neighbor.isWall)continue;
+            let moveCost=neighbor.isWeight?CONFIG.weightCost:CONFIG.defaultcost;
+            let tentativeG=currentNode.distance+moveCost;
+            if(tentativeG<neighbor.distance){
+                neighbor.previousNode =currentNode;
+                neighbor.distance = tentativeG;
+                neighbor.heuristic=Math.abs(neighbor.col-endNode.col)+Math.abs(neighbor.row-endNode.row);
+                neighbor.totalDistance =neighbor.distance+neighbor.heuristic;
+                neighbor.priority =neighbor.totalDistance;
+                neighbor.realG =tentativeG;
+                neighbor.distance=neighbor.totalDistance;
+                openSet.enqueue(neighbor)
+            }
+        }
+    }
+    return visitedOrder;
+}
+function bfs(startNode,endNode){
+    const visitedOrder = [];
+    const queue =[startNode];
+    startNode.isVisited = true;
+    while(queue.length){
+        const currentNode = queue.shift();
+        visitedOrder.push(currentNode);
+        if(currentNode===endNode)return visitedOrder;
+        const neighbors=getNeighbors(currentNode);
+        for(const neighbor of neighbors){
+            if(!neighbor.isVisited&&!neighbor.isWall){
+                neighbor.previousNode = currentNode;
+                stack.push(neighbor);
+            }
+        }
+
+    }
+    return visitedOrder;
+}
+function updateUnvisitedNeighbors(node,pq){
+    const neighbors=getNeighbors(node);
+    for(const neighbor of neighbors){
+        if(neighbor.isVisited)continue;
+        const weight =neighbor.isWeight?CONFIG.weightcost:CONFIG.defaultcost;
+        const newDist = node.distance+weight;
+        if(newDist<neighbor.distance){
+            neighbor.distance=newDist;
+            neighbor.previousNode =node;
+            pq.enqueue(neighbor);
+        }
+    }
+}
+function getNeighbors(node){
+    const neighbors =[];
+    const{col,row}=node;
+    if(row>0)neighbors.push(STATE.grid[row-1][col]);
+    if(row<STATE.rows-1) neighbors.push(STATE,grid[row+1][col]);
+    if(col>0)neighbors.push(STATE.grid[row][col-1]);
+    if(col<STATE.cols-1) neighbors.push(STATE.grid[row][col+1]);
+    return neighbors;
+}
+function getAllNodesFlat(){
+    const nodes=[];
+    for(const row of STATE.grid){
+        for(const node of row){
+            nodes.push(node);
+        }
+    }
+    return nodes;
+}
+function resetDistances(){
+    for(let r=0;r<STATE.rows;r++){
+        for(let c=0;c<STATE.cols;c++){
+            const node =STATE.grid[r][c];
+            node.distance=Infinity;
+            node.totalDistance=Infinity;
+            node.isVisited = false;
+            node.isPath = false;
+            node.previousNode=null;
+        }
+    }
+}
+function clearPathOnly(){
+    
+}
