@@ -180,4 +180,10 @@ canvas{
     transform: translateY(0);
     pointer-events: auto;
 }
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+    margin-bottom: 10px;
+}
 /*finished finally*/
