@@ -143,5 +143,100 @@ function createNode(row,col){
     };
 }
 function drawGrid(){
-    
+    ctx.fillStyle=CONFIG.defaultcolor;
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    for(let r=0;r<STATE.rows;r++){
+        for(let c=0;c<STATE.cols;c++){
+            drawNode(STATE.grid[r][c]);
+        }
+    }
 }
+function drawNode(node){
+    const x=node.col*CONFIG.cellsize;
+    const y = node.row*CONFIG.cellsize;
+    const size=CONFIG.cellsize-CONFIG.gridgap;
+    let color = CONFIG.defaultcolor;
+    if(node.isStart){
+        color=CONFIG.startcolor;
+    }else if(node.isEnd){
+        color = CONFIG.endcolor;
+    }else if(node.isWall){
+        color = CONFIG.wallcolor;
+    }else if(node.isPath){
+        color = CONFIG.pathcolor;
+    }else if(node.isVisited){
+        color=CONFIG.weightcolor;
+    }
+    ctx.fillStyle= color;
+    if(node.isVisited&&!node.isStart&&!node.isEnd&&!node.isPath){
+         ctx.fillRect(x,y,size,size);
+         ctx.fillStyle = 'rgba(0,0,0,0.3)';
+         ctx.beginPath();
+         ctx.arc(x+size/2,y+size/2,size/3,0,2*Math.PI);
+         ctx.fill();
+    } else{
+        ctx.fillRect(x,y,size,size);
+    }
+    ctx.strokeStyle = '#222';
+    ctx.lineWidth = 0.5;
+    ctx.strokeRect(x,y,size,size);
+}
+function getMousepos(evt){
+    const rect =canvas.getBoundingClientRect();
+    return{
+        x:evt.clientX-rect.left,
+        y:evt.clientY-rect.top,
+    };
+}
+function getNodeFromPos(pos){
+    const c = Math.floor(pos.x/CONFIG.cellsize);
+    const r = Math.floor(pos.y/CONFIG.cellsize);
+    if(r<0||r>=STATE.rows||c<0||c>=STATE.cols) return null;
+    return STATE.grid[r][c];
+}
+canvas.addEventListener('mousedown',(e)=>{
+    if(STATE.isRunning) return;
+    const pos = getMousepos(e);
+});
+//i am so cooked its 12am almost
+canvas.addEventListener('mousemove',(e)=>{
+    if(!STATE.isMousePressed||STATE.isRunning)return;
+    const pos = getMousepos(e);
+    const node =getNodeFromPos(pos);
+    if(!node)return;
+    if(STATE.draggedNode){
+        if(STATE.draggedNode==='isStart'){
+            if(!node.isEnd&&!node.isWall){
+                STATE.grid[STATE.startnode.row][STATE.startnode.col].isStart =false;
+                drawNode(STATE.grid[STATE.startnode.row][STATE.startnode.col]);
+                STATE.startnode ={
+                    row:node.row,
+                    col:node.col
+                };
+                node.isStart = true;
+                drawNode(node);
+                if(STATE.isFinished){
+                    clearPathOnly();
+                    runSelectedAlgorithm(true);
+                }
+            }
+        } else if(STATE.draggedNode==='isEnd'){
+            if(!node.isStart&&!node.isWall){
+                STATE.grid[STATE.endNode.row][STATE.endNode.col].isEnd=false;
+                drawNode(STATE.grid[STATE.endNode.row][STATE.endNode.col]);
+                STATE.endNode={
+                    row:node.row,
+                    col:node.col
+                };
+                node.isEnd = true;
+                drawNode(node);
+                if(STATE.isFinished){
+                    clearPathOnly();
+                    runSelectedAlgorithm(true);
+                }
+            }
+        }
+    }else{
+        handleDrawAction(node);
+    }
+});
