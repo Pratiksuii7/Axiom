@@ -401,5 +401,154 @@ function resetDistances(){
     }
 }
 function clearPathOnly(){
-    
+    for(let r=0;r<STATE.rows;r++){
+        for(let c=0;c<STATE.cols;c++){
+            const node = STATE.grid[r][c];
+            node.isVisited=false;
+            node.isVisited = false;
+        }
+    }
 }
+function animateAlgorithm(visitedNodesInOrder,endNode){
+    STATE.isRunning = true;
+    STATE.isFinished = false;
+    const speedSelect=document.getElementById('speed-select').value;
+    let delay =10;
+    if(speedSelect==='fast')delay=5;
+    if(speedSelect==='medium')delay =20;
+    if(speedSelect==='slow')delay =50;
+    if(speedSelect==='instant')delay=0;
+    for(let i=0;i<=visitedNodesInOrder.length;i++){
+        if(i===visitedNodesInOrder.length){
+            setTimeout(()=>{
+                animatePath(endNode);
+            },delay*i);
+            return;
+        }
+        setTimeout(()=>{
+            const node= visitedNodesInOrder[i];
+            if(!node.isStart&&!node.isEnd){
+                node.isVisited=true;
+                drawNode(node);
+            }
+        },delay*i);
+    }
+}
+//so mch tired now
+function animatePath(endNode){
+    const nodeInShortestPathOrder=getNodesInShortestPathOrder(endNode);
+    const speedSelect=document.getElementById('speed-select').value;
+    let delay=30;
+    if(speedSelect==='fast')delay=10;
+    for(let i=0;i<getNodesInShortestPathOrder.length;i++){
+        setTimeout(()=>{
+            const node=nodeInShortestPathOrder[i];
+            node.isPath=true;
+            if(!node.isStart&&!node.isEnd){
+                drawNode(node);
+            }else{
+                drawNode(node);
+            }
+            if(i===nodeInShortestPathOrder.length-1){
+                STATE.isRunning=false;
+                STATE.isFinished=true;
+                ShowToast('Path found,Distance: '+ nodeInShortestPathOrder.length);
+                logMsg('Visualization complete.yayay');
+            }
+        },delay*i);
+    }
+    if(nodeInShortestPathOrder.length===0){
+       STATE.isRunning=false;
+       STATE.isFinished = true;
+       ShowToast("huh? No path found!")
+       logMsg("No path found it cant be reached :(");
+    }
+}
+function animateInstant(visitedNodes,endNode){
+    for(const node of nodes){
+        node.isVisited=true;
+    }
+    const path=getNodesInShortestPathOrder(endNode);
+    for(const node of path){
+        node.isPath = true;
+    }
+    drawGrid();
+    STATE.isRunning=false;
+    STATE.isFinished=true;
+}
+function getNodesInShortestPathOrder(endNode){
+    const nodeInShortestPathOrder=[];
+    let currentNode=endNode;
+    while(currentNode!==null){
+        nodesInShortestPathOrder.unnshift(currentNode);//these r so long
+        currentNode = currentNode.previousNode;
+        if(nodeInShortestPathOrder.length>STATE.rows*STATE.cols)break;
+    }
+    if(nodeInShortestPathOrder.length===1&&!nodesInShortestPathOrder[0].isStart){
+        return[];
+    }
+    return nodesInShortestPathOrder;
+}
+//so much code done still have to do more waaaaaa
+function generateRandomMaze(){
+    if(STATE.isRunning)return;
+    clearBoard(false);
+    logMsg("generating random maze...........");
+    for(let r=0;r<STATE.rows;r++){
+        for(let c=0;c<STATE.cols;c++){
+            const node = STATE.grid[r][c];
+            if(node.isStart||node.isEnd)continue;
+            if(Math.random()<0.3){
+                node.isWall = true;
+            }
+        }
+    }
+    drawGrid();
+}
+function generateRecursiveMaze(){
+    if(STATE.isRunning)return;
+    clearBoard(false);
+    for(let r=0;r<STATE.rows;r++){
+        STATE.grid[r][0].isWall=true;
+        STATE.grid[r][STATE.cols-1].isWall=true;
+    }
+    //lil break
+    for(let c=0;c<STATE.cols;c++){
+        STATE.grid[0][c].isWall=true;
+        STATE.grid[STATE.endNode.row][STATE.endNode.col];
+        start.isWall =false;
+        end.isWall = false;
+        getNeighbors(start).forEach(n=>n.isWall=false);
+        getNeighbors(end).forEach(n=>n.isWall=false);
+        drawGrid();
+    }
+}
+    function addInnerWalls(h,minX,maxX,minY,maxY){
+        if(h){
+            if(maxX-minX<2)return;
+            const y = Math.floor(randomInt(minY,maxY)/2)*2;
+            addHWall(minX,maxX,y);
+            addInnerWalls(!h,minX,minY,y-1);
+            addInnerWalls(!h,minX,maxX,y+1,maxY);
+        } else{
+            if(maxY-minY<2)return;
+            const x = Math.floor(randomInt(minX,maxY)/2)*2;
+            addVWall(minY,maxY,x);
+            addInnerWalls(!h,minX,x-1,minY,maxY);
+            addInnerWalls(!h,x+1,maxX,minY,maxY);
+        }
+    }
+    function addHWall(minX,maxX,y){
+        const hole= Math.floor(randomInt(minX,maxX)/2)*2;
+        for(let i=minX;i<=maxX;i++){
+            if(i!==hole&&STATE.grid[y][i].isStart&&!STATE.grid[y][i].isEnd){
+                if(!STATE.grid[y][i].isStart&&!STATE.grid[y][i].isEnd){
+                    STATE.grid[y][i].isWall = true;
+                }
+            }
+        }
+    }
+    //so much tired af
+   function addVWall(minY,maxY,x){
+
+   }
