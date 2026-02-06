@@ -1,0 +1,127 @@
+/*lets begin the css journey hehe*/
+body{
+    background-color: #1a1a1a;
+    color: #eee;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+h1{
+    margin-bottom: 5px;
+}
+#sim-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+#canvas-wrapper{
+    position: relative;
+    border: 2px solid #444;
+}
+canvas{
+    background-color: #000;
+    display: block;
+}
+#controls{
+    flex: 1;
+    max-height: 800px;
+    min-width: 300px;
+    background: #2a2a2a;
+    padding: 20px;
+    border: 1px solid #444;
+    border-radius: 8px;
+    overflow-y: auto;
+}
+.control-group{
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #444;
+    padding-bottom: 10px;
+}
+.control-group label{
+    display: block;
+    color: #bbb;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+input[type="range"]{
+    width: 100%;
+    cursor: pointer;
+}
+.btn-row{
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+button{
+    flex: 1;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: inherit;
+    transition: background 0.2s;
+}
+#btn-start{
+    background: #2ecc71;
+    color: #fff;
+}
+#btn-start:hover{
+    background: #27ae60;
+}
+#btn-stop{
+    background: #e74c3c;
+    color: #fff;
+}
+#btn-stop:hover{
+    background: #c0392b;
+}
+/*i am back*/
+#btn-reset{
+    background: #f1c40f;
+    color: #000;
+}
+#btn-clear-trails{
+    background: #9b59b6;
+    color: #fff;
+}
+#debug-log{
+    font-size: 12px;
+    color: #555;
+    height: 150px;
+    background: #111;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #444;
+    overflow-y: auto;
+}
+.value-display{
+    color: #3498db;
+    float: right;
+}
+#presets{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    margin-top: 10px;
+}
+.preset-btn{
+    color: white;
+    background: #34495e;
+    padding: 5px;
+    font-size: 0.8rem;
+}
+.preset-btn:hover{
+    background: #2c3e50;
+}
+.warning{
+    color: orange;
+    font-size: 0.8em;
+    font-style: italic;
+}
+/*done the css yay*/
