@@ -44,7 +44,7 @@ function r2d(rad){
 }
 function calculatephysics(){
     if(isNaN(a1)||isNaN(a2)){
-        log("Error: Phusics broke (NaN detected), Resetting velocities");
+        log("Error: Physics broke (NaN detected), Resetting velocities");
         a1_v=0;
         a2_v=0;
         return;
@@ -60,7 +60,7 @@ function calculatephysics(){
     let num2_2 = (a1_v*a1_v*r1*(m1+m2));
     let num3_2 =g*(m1+m2)*Math.cos(a1);
     let num4_2 = a2_v*a2_v*r2*m2*Math.cos(a1-a2);
-    let den_2 = r2*(2*m1*m2-m2-m2*Math.cos(2*a1-2*a2));
+    let den_2 = r2*(2*m1+m2-m2*Math.cos(2*a1-2*a2));
     if(den_2===0) den_2=0.0001;
     a2_a= (num1_2*(num2_2+num3_2+num4_2))/den_2;
     a1_v += a1_a;
@@ -73,7 +73,7 @@ function calculatephysics(){
 //back again today i am gonna finish all
 function draw(){
     ctx.fillStyle = '#000';
-    ctx.fillRect(0,0,CanvasRenderingContext2D.width,cvs.height);
+    ctx.fillRect(0,0,cvs.width,cvs.height);
     let x1 = r1*Math.sin(a1);
     let y1 =r1*Math.cos(a1);
     let x2=x1+r2*Math.sin(a2);
@@ -113,7 +113,8 @@ function draw(){
     ctx.stroke();
     ctx.beginPath();
     ctx.fillStyle = color_bob_1;
-    ctx.arc(x1,y1,r1_raius,0,2*Math.PI);
+    let r1_radius = Math.max(5, m1);
+    ctx.arc(x1,y1,r1_radius,0,2*Math.PI);
     ctx.fill();
     ctx.beginPath();
     let r2_radius=Math.max(5,m2);
@@ -124,4 +125,138 @@ function draw(){
     ctx.arc(cx,cy,3,0,2*Math.PI);
     ctx.fill();
 }
-
+function loop(){
+    if(isRunning){
+        calculatephysics();
+        framecount++;
+        if(framecount%600===0){}
+    }
+    draw();
+    requestAnimationFrame(loop);
+}
+document.getElementById('m1').addEventListener('input',(e)=>{
+    m1=parseFloat(e.target.value);
+    updateDisplay('m1',m1);
+});
+document.getElementById('l1').addEventListener('input',(e)=>{
+    r1 = parseFloat(e.target.value);
+    updateDisplay('l1',r1);
+    if(!isRunning)draw();
+});
+document.getElementById('a1').addEventListener('input',(e)=>{
+    let deg=parseFloat(e.target.value);
+    a1 = d2r(deg);
+    updateDisplay('a1',deg);
+    if(!isRunning)draw();
+});
+document.getElementById('m2').addEventListener('input',(e)=>{
+    m2 =parseFloat(e.target.value);
+    updateDisplay('m2',m2);
+});
+document.getElementById('l2').addEventListener('input',(e)=>{
+    r2 =parseFloat(e.target.value);
+    updateDisplay('l2',r2);
+    if(!isRunning) draw();
+});
+document.getElementById('a2').addEventListener('input',(e)=>{
+    let deg=parseFloat(e.target.value);
+    a2 = d2r(deg);
+    updateDisplay('a2',deg);
+    if(!isRunning)draw();
+});
+document.getElementById('g').addEventListener('input',(e)=>{
+    g=parseFloat(e.target.value);
+    updateDisplay('g',g);
+});
+document.getElementById('trailLen').addEventListener('input',(e)=>{
+    maxtrail= parseInt(e.target.value);
+    updateDisplay('trails',maxtrail);
+    if(trail.length>maxtrail){
+        trail = trail.slice(trail.length-maxtrail);
+    }
+});
+//tired alrdy
+document.getElementById('btn-start').addEventListener('click',()=>{
+    isRunning = true;
+    log("Simulation started.");
+});
+document.getElementById('btn-stop').addEventListener('click',()=>{
+    isRunning = false;
+    log("simulation paused.");
+});
+document.getElementById('btn-reset').addEventListener('click',()=>{
+    isRunning =false;
+    a1_v = 0;
+    a2_v =0;
+    a1_a = 0;
+    a2_a =0;
+    let sliderA1 = document.getElementById('a1');
+    let sliderA2=document.getElementById('a2');
+    a1 = d2r(parseFloat(sliderA1.value));
+    a2 = d2r(parseFloat(sliderA2.value));
+    trail =[];
+    draw();
+    log("simulation reset");
+});
+document.getElementById('btn-clear-trails').addEventListener('click',()=>{
+    trail=[];
+    draw();
+});
+function loadPreset(name){
+    isRunning = false;
+    a1_v = 0;
+    a2_v=0;
+    trail =[];
+    switch(name){
+        case 'classic':
+            setVals(10,10,100,100,90,90,1);
+            break;
+        case 'balanced':
+            setVals(15,15,120,120,180,179,1);
+            break;
+        case 'heavy-bottom':
+            setVals(10,30,100,100,90,0,1);
+            break;
+        case 'long-short':
+            setVals(10,10,150,50,90,90,1);
+            break;
+        case 'high-energy':
+            setVals(10,10,100,100,180,90,1.5);
+            break;
+        case 'tiny':
+            setVals(5,5,40,40,45,45,1);
+            break;
+        default: 
+        log("Unknown preset: " + name);
+    }
+    draw();
+    log("Loaded preset: " + name);
+}
+function setVals(_m1,_m2,_l1,_l2,_a1,_a2,_g){
+    m1 =_m1;
+    m2 =_m2;
+    r1=_l1;
+    r2=_l2;
+    a1=d2r(_a1);
+    a2= d2r(_a2);
+    g=_g;
+    document.getElementById('m1').value =m1;
+    document.getElementById('m2').value =m2;
+    document.getElementById('l1').value = r1;
+    document.getElementById('l2').value =r2;
+    document.getElementById('a1').value= _a1;
+    document.getElementById('a2').value = _a2;
+    document.getElementById('g').value = g;
+    
+    updateDisplay('m1',m1);
+    updateDisplay('m2',m2);
+    updateDisplay('l1',r1);
+    updateDisplay('l2',r2);
+    updateDisplay('a1',_a1);
+    updateDisplay('a2',_a2);
+    updateDisplay('g',g);
+}
+log("Initializing be ready to enjoy!!");
+draw();
+requestAnimationFrame(loop);
+//finally done the js yaya it works
