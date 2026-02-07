@@ -20,6 +20,6 @@
 <li>Chaos Simulator - A double pendulum chaotic simulator where we can simulate 2 pendulums with customizable characteristics of both pendulum. </li>
 </ol>
 <h3>How to use it?</h3>
-<p>Go to https://toolsengine.vercel.app and enjoy using these unique tools.</p>
+<p>Go to https://pratik-toolsengine.vercel.app and enjoy using these unique tools.</p>
 
 
