@@ -70,3 +70,58 @@ function calculatephysics(){
     a1_v *= 0.999;
     a2_v *= 0.999;
 }
+//back again today i am gonna finish all
+function draw(){
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0,0,CanvasRenderingContext2D.width,cvs.height);
+    let x1 = r1*Math.sin(a1);
+    let y1 =r1*Math.cos(a1);
+    let x2=x1+r2*Math.sin(a2);
+    let y2 = y1+ r2*Math.cos(a2);
+    x1+=cx;
+    y1 += cy;
+    x2 += cx;
+    y2 += cy;
+    if(isRunning){
+        trail.push({
+            x:x2,
+            y:y2
+        });
+        if(trail.length>maxtrail){
+            trail.shift();
+        }
+    }
+    if(trail.length>1){
+        ctx.beginPath();
+        ctx.strokeStyle=color_trail;
+        ctx.lineWidth =1;
+        ctx.moveTo(trail[0].x,trail[0].y);
+        for(let i=1;i<trail.length;i++){
+            ctx.lineTo(trail[i].x,trail[i].y);
+        }
+        ctx.stroke();
+    }
+    ctx.beginPath();
+    ctx.strokeStyle=color_rod;
+    ctx.lineWidth=3;
+    ctx.moveTo(cx,cy);
+    ctx.lineTo(x1,y1);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x1,y1);
+    ctx.lineTo(x2,y2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.fillStyle = color_bob_1;
+    ctx.arc(x1,y1,r1_raius,0,2*Math.PI);
+    ctx.fill();
+    ctx.beginPath();
+    let r2_radius=Math.max(5,m2);
+    ctx.arc(x2,y2,r2_radius,0,2*Math.PI);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.fillStyle ='#fff';
+    ctx.arc(cx,cy,3,0,2*Math.PI);
+    ctx.fill();
+}
+
