@@ -8,7 +8,42 @@
 </head>
 <body>
     <!--tools engine is backkkkkkk again lmao-->
-    
+    <div id="app-container">
+        <div id="header-area">
+            <h1>Draw Somethin - Fourier Epicycles</h1>
+            <div class="subtitle">Draw a continuous line whatever shape you wany.Then just leave holding i mean let it go then the math happens yay!</div>
+            <div id="controls">
+                <button id="btn-clear" class="danger">Clear Screen?</button>
+                <button id="btn-demo">Load Demo?</button>
+                <div class="control-group tooltip">
+                    <label for="slider-speed">Time Speed</label>
+                    <input type="range" id="slider-speed" min="1" max="20" value="5">
+                    <span class="tooltiptext">How fast the circles rotate.Faster = jankier lines.</span>
+                </div>
+                <div class="control-group tooltip">
+                    <label for="slider-circles">Epicycle Limit</label>
+                    <input type="range" id="slider-circles" min="1" max="100" value="100" id="circle-limit-slider"> 
+                    <span id="circle-count-display">100%</span>
+                    <span class="tooltiptext">Reduce this to see it draw poorly(low frequency cut off).</span>
+                </div>
+                <div class="control-group">
+                    <label>
+                        <input type="checkbox" id="check-show-circles" checked>
+                        Show Circles
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div id="canvas-wrapper">
+            <canvas id="myCanvas"></canvas>
+            <div id="drawing-indicator">Recording Mouse</div>
+        </div>
+        <div id="status-bar">
+            Status: Idle | Points:0 | Frame: 0
+        </div>
+    </div>
+    <!--finished yay-->
+
     <script src="fourier.js"></script>
 </body>
 </html>
