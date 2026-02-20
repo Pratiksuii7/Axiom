@@ -98,6 +98,70 @@ function setupEvents(){
 canvas.addEventListener('touchmove',(e)=>{
     e.preventDefault();
     const touch = e.touches[0];
-    
-})
+    const mouseEvent =new MouseEvent("mousemove",{
+        clientX: touch.clientX,
+        clientY:touch.clientY
+    });
+    canvas.dispatchEvent(mouseEvent);
+},{passive:false});
+canvas.addEventListener('touchend',(e)=>{
+    const mouseEvent =new MouseEvent("mouseup",{});
+});
 }
+function getMousePos(evt){
+    const rect =canvas.getBoundingClientRect();
+    return{
+        x:evt.clientX-rect.left,
+        y:evt.clientY-rect.top
+    };
+}
+function startDrawing(evt){
+    isDrawing =true;
+    resetAll();
+    document.getElementById('drawing-indicator').style.display ='block';
+    const pos =getMousePos(e);
+    userPoints.push(pos);
+}
+function keepDrawing(e){
+    if(!isDrawing) return;
+    const pos =getMousePos(e);
+    const lastPoint =userPoints[userPoints.length-1];
+    const dist= Math.hypot(pos.x-lastPoint.x,pos.y-lastPoint.y);
+    if(dist>2){
+        userPoints.push(pos);
+    }
+}
+function stopDrawing(e){
+    if(!isDrawing)return;
+    isDrawing = false;
+    document.getElementById('drawing-indicator').style.display = 'none';
+    console.log("Drawing Finished. Total Points: ", userPoints,length);
+    if(userPoints.length<5){
+        console.warn("Not enough points to do anything useful.");
+        resetAll();
+        return;
+    }
+    processDrawing();
+}
+//tired of implementing the logic
+function resetAll(){
+    userPoints =[];
+    fourierData = [];
+    path = [];
+    time = 0;
+    ctx.clearRect(0,0,width,height);
+    updateStatus("Cleared...");
+}
+function processDrawing(){
+    updateStatus("Calculating fourier transform... wait....");
+    const complexPoints = [];
+    for(let i=0;i<userPoints.length;i++){
+        complexPoints.push(new Complex(userPoints[i].x,userPoints[i].y));
+    }
+    fourierData = dft(complexPoints);
+    fourierData.sort((a,b)=>b.amp-a.amp);
+    dt = (2*Math.PI)/fourierData.length;
+    console.log("DFT complete. sorted epicycles ready");
+    updateStatus("Playing animation......");
+}
+let frameCounter = 0;
