@@ -18,6 +18,7 @@
 <li>Probability Graph Visualizer - A math tool where we can visualize the probability.It gives expressions too. </li>
 <li>Path Finder Visualizer - A visualizer computer science related visualizing tool where we can make or generare maze then visualize its path.</li>
 <li>Chaos Simulator - A double pendulum chaotic simulator where we can simulate 2 pendulums with customizable characteristics of both pendulum. </li>
+<li>Fourier Epicycles - A visualization tool that is used to visualize how the complex shapes can be represented through rotating circles. </li>
 </ol>
 <h3>How to use it?</h3>
 <p>Go to https://pratik-toolsengine.vercel.app and enjoy using these unique tools.</p>
