@@ -135,3 +135,42 @@ canvas{
     }
 }
 /*a small break*/
+/*less start again*/
+.tooltip{
+    position: relative;
+    display: inline-block;
+}
+.tooltip .tooltiptext{
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    font-size: 11px;
+    font-weight: normal;
+    transition: opacity 0.3s;
+}
+.tooltip:hover .tooltiptext{
+    visibility: visible;
+    opacity: 1;
+}
+#status-bar{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 5px 10px;
+    font-size: 11px;
+    color: #888;
+    box-sizing: border-box;
+    pointer-events: none;
+}
