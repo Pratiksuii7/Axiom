@@ -9,6 +9,48 @@
 <body>
     <!--so i have decided to just continue rebooting this yay-->
 
+    <div class="ui-panel">
+        <h1>Ulam Spiral Explorer</h1>
+        <p>Drag to explore and scroll to zoom in/out.</p>
+        <div class="control-group">
+            <label for="num-points">Max Numbers to render: <span id="points-val">10000</span></label>
+            <input type="range" id="num-points" min="100" max="100000" step="100" value="10000">
+            <small>Warning: 50k might melt your browser. HAHA</small>
+        </div>
+        <div class="control-group">
+            <label for="dot-size">Dot Size (px): <span id="size-val">3</span></label>
+            <input type="range" id="dot-size" min="1" max="20" step="0.5" value="3">
+        </div>
+        <div class="control-group toggle-row">
+            <input type="checkbox" id="show-lines" checked>
+            <label for="show-lines">Connect with lines.</label>
+        </div>
+        <div class="control-group toggle-row"> 
+            <input type="checkbox" id="show-numbers">
+            <label for="show-numbers">Show Text/Numbers (click and destroy your browser) </label>
+        </div>
+        <div class="control-group toggle-row">
+            <input type="checkbox" id="highlight-composites">
+            <label for="highlight-composites">Show composite numbers!</label>
+        </div>
+        <div class="control-group">
+            <label>Controls</label>
+            <div class="color-picker">
+                <input type="color" id="color-prime" value="#10b981" title="Prime Color">
+                <input type="color" id="color-line" value="#334155" title="Line Color">
+                <input type="color" id="color-bg" value="#0f127a" title="Bg Color">
+            </div>
+        </div>
+        <button id="btn-reset">Reset View</button>
+        <button id="btn-center">Center on 1</button>
+        <div class="stat-box" id="stats-area">Loading Stats</div>
+    </div>
+    <div id="canvas-container">
+        <div id="tooltip">Number: 42 (Composite)</div>
+        <canvas id="spiral-canvas"></canvas>
+    </div>
+    <!--done less go to CSS part-->
+
     <script src="prime.js"></script>
 </body>
 </html>
