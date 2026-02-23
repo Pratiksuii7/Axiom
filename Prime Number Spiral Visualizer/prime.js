@@ -130,3 +130,97 @@ function generateSpiralData(maxNum,spacing){
         }
     }
 }
+//i am so fired up lesss gooooo
+function requestRender(){
+    if(renderTimer)clearTimeout(renderTimer);
+    renderTimer =setTimeout(()=>{
+        render();
+    },10);
+}
+function render(){
+    const start = performance.now();
+    const maxPoints =parseInt(numPointsInput.value);
+    const rawDotSize = parseFloat(dotSizeInput.value);
+    const drawLines =showLinesCheck.checked;
+    const drawText = showNumbersCheck.checked;
+    const highlightComposites =highlightCompositesCheck.checked;
+    const pColor= colorPrime.value;
+    const lColor = colorLine.value;
+    const bgColor =colorBg.value;
+    const rect =canvas.parentElement.getBoundingClientRect();
+    ctx.clearRect(0,0,rect.width,rect.height);
+    const baseSpacing =20;
+    generateSpiralData(maxPoints,baseSpacing);
+    ctx.save();
+    ctx.translate(camera.x,camera.y);
+    ctx.scale(camera.zoom,camera.zoom);
+    let primesFound = 0;
+    if(drawLines&&generatedPoints.length>1){
+        ctx.beginPath();
+        ctx.moveTo(generatedPoints[0].x,generatedPoints[0].y);
+        for(let i=1;i<generatedPoints.length;i++){
+            ctx.lineTo(generatedPoints[i].x,generatedPoints[i].y);
+        }
+        ctx.strokeStyle =lColor;
+        ctx.lineWidth =1/camera.zoom;
+        ctx.stroke();
+    }
+    const primePoints= [];
+    const compositePoints =[];
+    for(let i=0;i<generatedPoints.length;i++){
+        const pt= generatedPoints[i];
+        if(pt.isPrime){
+            primePoints.push(pt);
+            primesFound++;
+        }else{
+            compositePoints.push(pt);
+        }
+    }
+    if(highlightComposites){
+        ctx.fillStyle= '#475569';
+        for(let i=0;i<compositePoints.length;i++){
+            const pt = compositePoints[i];
+            if(pt.isPrime){
+                primePoints.push(pt);
+                primesFound++;
+            }else{
+                compositePoints.push(pt);
+            }
+        }
+        if(highlightComposites){
+            ctx.fillStyle= '#475569';
+            for(let i=0;i<compositePoints.length;i++){
+                const pt = compositePoints[i];
+                ctx.beginPath();
+                ctx.clearRect(pt.x,pt.y,rawDotSize*0.5,0,Math.PI*2);
+                ctx.fill();
+            }
+        }
+        ctx.fillStyle =pColor;
+        for(let i=0;i<primePoints.length;i++){
+            const pt = primePoints[i];
+            ctx.beginPath();
+            ctx.arc(pt.x,pt.y,rawDotSize,0,Math.PI*2);
+            ctx.fill();
+        }
+        if(drawText){
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign ='center';
+            ctx.textBaseline ='middle';
+            if(camera.zoom>0.5||maxPoints<1000){
+                const fontSize = Math.max(8,12/camera.zoom);
+                ctx.font =`${fontSize}px Arial`;
+                for(let i=0;i<generatedPoints.length;i++){
+                    const pt= generatedPoints[i];
+                    ctx.fillText(pt.n,pt.x,pt.y-(rawDotSize+5)/camera.zoom);
+                }
+            }
+        }
+        ctx.restore();
+        const end =performance.now();
+        statsArea.innerText =`
+        Render Time: ${(end - start).toFixed(1)} ms<br>
+        Total Numbers
+        `
+    }
+}
