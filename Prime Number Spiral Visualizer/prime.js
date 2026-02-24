@@ -1,6 +1,6 @@
 //les do real programming
 const PRECALCULATED_PRIMES = new Set([
-
+    2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127
 ]);
 //gonna add these later
 const canvas = document.getElementById('spiral-canvas');
@@ -267,5 +267,35 @@ function setupMouseEvents(){
     },{passive:false});
 }
 function handleTooltip(e){
-    
+    const rect= canvas.getBoundingClientRect();
+    const mouseX =e.clientX-rect.left;
+    const mouseY= e.clientY-rect.top;
+    const worldX= (mouseX-camera.x)/camera.zoom;
+    const worldY = (mouseY-camera.y)/camera.zoom;
+    let found = null;
+    const threshold= 10/camera.zoom;
+    for(let i=generatedPoints.length-1;i>=0;i--){
+        const pt=generatedPoints[i];
+        const dx = pt.y-worldY;
+        const dy = pt.y-worldY;
+        const distSq = dx*dx+dy*dy;
+        if(distSq<threshold*threshold){
+            found = pt;
+            break;
+        }
+    }
+    if(found){
+        tooltip.style.display ='block';
+        tooltip.style.left = (e.clientX+15)+'px';
+        tooltip.style.top = (e.clientY+15)+'px';
+        let typeText = found.isPrime? "<span style='color:#10b981;font-weight:bold;'>Prime</span>": "Composite";
+        if(found.n===1)typeText="Neither";
+        tooltip.innerHTML =`Number: ${found.n}<br>Type: ${typeText}`;
+        canvas.style.cursor = 'crosshair';
+    }else{
+        tooltip.style.display ='none';
+        canvas.style.cursor ='grab';
+    }
 }
+//finally the end
+window.onload = init;
