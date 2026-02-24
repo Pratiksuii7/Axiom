@@ -7,7 +7,94 @@
 </head>
 <body>
     <!--less do thisssss-->
-    
+    <div id="ui-panel">
+        <h1>Ball Collision Simulator</h1>
+        <div class="control-group">
+            <h3>Controls</h3>
+            <div class="slider-container">
+                <label>
+                    Gravity (Y)
+                    <span id="lbl-gravity" class="val-display">0.50</span>
+                </label>
+                <input type="range" id="sl-gravity" min="-1" max="2" step="0.05" value="0.5">
+            </div>
+            <div class="slider-container">
+                <label>
+                    Wind (X)
+                    <span id="lbl-wind" class="val-display">0.00</span>
+                </label>
+                <input type="range" id="sl-wind" min="-1" max="1" step="0.05" value="0">
+            </div>
+            <div class="slider-container">
+                <label>
+                    Bounciness
+                    <span id="lbl-bounce" class="val-display">0.05</span>
+                </label>
+                <input type="range" id="sl-bounce" min="0" max="1.5" step="0.05" value="0.85">
+            </div>
+            <div class="slider-container">
+                <label>
+                    Air Drag (Friction)
+                    <span id="lbl-drag" class="val-display">0.995</span>
+                </label>
+                <input type="range" id="sl-drag" min="0.9" max="1.0" step="0.001" value="0.995">
+            </div>
+        </div>
+        <div class="control-group">
+            <h3>Spawner Default</h3>
+            <div class="slider-container">
+                <label>
+                    Base Radius
+                    <span id="lbl-radius" class="val-display">25</span>
+                </label>
+                <input type="range" id="sl-radius" min="5" max="80" step="1" value="25">
+            </div>
+            <div class="slider-container">
+                <label>
+                    Base mass
+                    <span id="lbl-mass" class="val-display">10</span>
+                </label>
+                <input type="range" id="sl-mass" min="1" max="200" step="1" value="10">
+            </div>
+        </div>
+        <div class="control-group">
+            <h3>Render and Debug</h3>
+            <label class="checkbox-container">
+                <input type="checkbox" id="chk-collide" checked>
+                Enable Ball Collisions
+            </label>
+            <label class="checkbox-container">
+                <input type="checkbox" id="chk-trails">
+                Draw Motion Trails
+            </label>
+            <label class="checkbox-container">
+                <input type="checkbox" id="chk-vectors">
+                Show velocity vectors
+            </label>
+            <label class="checkbox-container">
+                <input type="checkbox" id="chk-fill" checked>
+                Fill Shapes?
+            </label>
+        </div>
+        <div class="btn-row">
+            <button class="btn" id="btn-add-1">Add 1</button>
+            <button class="btn" id="btn-add-10">Add 10</button>
+        </div>
+        <button class="btn danger" id="btn-nuke">Nuke Everytning?</button>
+        <div id="stats-board">
+            <div class="stat-line"><span>FPS:</span> <span id="stat-fps">60</span></div><!--looks cool isnt it-->
+            <div class="stat-line"><span>Entities:</span> <span id="stat-count">0</span></div>
+            <div class="stat-line"><span>Checks/Frame: </span> <span id="stat-checks">0</span></div>
+            <div class="stat-line">Writen by a tired dev.</div>
+        </div>
+        </div>
+    </div>
+    <div id="render-target">
+        <canvas id="mainCanvas"></canvas>
+        <div id="controls-hint">
+            Click to spawn, Drag to throw, <span class="key-btn">Shift</span> + Click to delete.
+        </div>
+    </div>
     <script src="ball.js"></script>
 </body>
 </html>
