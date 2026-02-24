@@ -220,7 +220,52 @@ function render(){
         const end =performance.now();
         statsArea.innerText =`
         Render Time: ${(end - start).toFixed(1)} ms<br>
-        Total Numbers
-        `
+        Total Numbers: ${maxPoints}<br>
+        Primes Found: ${primesFound} (${((primesFound/maxPoints)*100).toFixed(1)}%)<br>
+        Zoom Level: ${camera.zoom.toFixed(2)}x
+        `;
     }
+}
+function setupMouseEvents(){
+    canvas.addEventListener('mousedown',(e)=>{
+        isDragging = true;
+        lastMouseX =e.clientX;
+        lastMouseY = e.clientY;
+    });
+    window.addEventListener('mouseup',()=>{
+        isDragging =false;
+    });
+    window.addEventListener('mousemove',(e)=>{
+        if(isDragging){
+            const dx= e.clientX- lastMouseX;
+            const dy =e.clientY-lastMouseY;
+            camera.x +=dx;
+            camera.y +=dy;
+            lastMouseX =e.clientX;
+            lastMouseY= e.clientY;
+            requestRender();
+        }
+        if(!isDragging){
+            handleTooltip(e);
+        }
+    });
+    canvas.addEventListener('wheel',(e)=>{
+        e.preventDefault();
+        const rect =canvas.getBoundingClientRect();
+        const mouseX= e.clientX- rect.left;
+        const mouseY =e.clientY- rect.top;
+        const worldX= (mouseX-camera.x)/camera.zoom;
+        const worldY =(mouseY-camera.y)/camera.zoom;
+        const zoomIntensity = 0.1;
+        const wheel = e.deltaY<0?1:-1;
+        let newZoom= Math.exp(wheel*zoomIntensity)*camera.zoom;
+        newZoom =Math.max(0.01,Math.min(newZoom,50));
+        camera.zoom= newZoom;
+        camera.x= mouseX-worldX*camera.zoom;
+        camera.y = mouseY-worldY*camera.zoom;
+        requestRender();
+    },{passive:false});
+}
+function handleTooltip(e){
+    
 }
