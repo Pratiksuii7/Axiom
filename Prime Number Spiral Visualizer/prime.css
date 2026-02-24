@@ -116,3 +116,7 @@ canvas{
     border-radius: 4px;
     cursor:pointer;
 }
+a{
+    color: var(--accent);
+    text-decoration: none;
+}
