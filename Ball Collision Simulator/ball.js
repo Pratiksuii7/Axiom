@@ -164,3 +164,68 @@ class PhysicsBall{
         }
     }
 }
+//back again
+function handleWallCollisions(ball){
+    let bounce = config.restitution;
+    if(ball.pos.x+ball.r>canvas.width){
+        ball.pos.x =canvas.width-ball.r;
+        ball.vel.x*=-bounce;
+        if(Math.abs(ball.vel.y)<1){
+            ball.vel.x*=0.95;
+        }
+    }else if(ball.pos.y-ball.r<0){
+        ball.pos.y =ball.r;
+        ball.vel.y *= -bounce;
+    }
+    if(ball.pos.x+ball.r>canvas.width){
+        ball.pos.x = canvas.width - ball.r;
+        ball.vel.x *= -bounce;
+    }
+}
+function checkBallToBallCollision(){
+    if(!config.doCollisions)return;
+    for(let i=0;i<entities.length;i++){
+        let a= entities[i];
+        for(let j=i=+1;j<entities.length;j++){
+            let b= entities[j];
+            collisionChecksCounter++;
+            let distToX = Math.abs(a.pos.x-b.pos.x);
+            let distToY = Math.abs(a.pos.y-b.pos.y);
+            let combinedRadius =a.r+b.r;
+            if(distToX>combinedRadius||distToY>combinedRadius){
+                continue;
+            }
+            let normalVec = a.pos.sub(b.pos);
+            let distSq = normalVec.magSq();
+            if(distSq<combinedRadius*combinedRadius){
+                let dist = Math.sqrt(distSq);
+                if(dist===0){
+                    normalVec = new Vec2(1,0);
+                    dist = 0.01;
+                }else{
+                    normalVec.multMut(1/dist);
+                }
+                let overlap= combinedRadius - dist;
+                let percent =0.5;
+                let slop =0.5;
+                if(overlap>slop){
+                    let correctionMagnitude =(overlap/(a.invMass+b.invMass))*percent;
+                    let correctionVec = normalVec.mult(correctionMagnitude);
+                    a.pos.addMut(correctionVec.mult(a.invMass));
+                    b.pos.subMut(correctionVec.mult(b.invMass));
+                }
+                let relVel =a.vel.sub(b.vel);
+                let velocityAlongNormal=relVel.dot(normalVec);
+                if(velocityAlongNormal>0){
+                    continue;
+                }
+                let e=config.restitution;
+                let j = -(1+e)*velocityAlongNormal;
+                j /=(a.invMass+b.invMass);
+                let impusleVec =normalVec.mult(j);
+                a.vel.addMut(impusleVec.mult(a.invMass));
+                b.vel.subMut(impusleVec.mult(b.invMass));
+            }
+        }
+    }
+}
