@@ -189,4 +189,9 @@ canvas{
     font-weight: bold;
     margin: 0 4px;
 }
+a{
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: bold;
+}
 /*less go to the js*/
