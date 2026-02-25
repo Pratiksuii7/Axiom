@@ -20,6 +20,7 @@
 <li>Chaos Simulator - A double pendulum chaotic simulator where we can simulate 2 pendulums with customizable characteristics of both pendulum. </li>
 <li>Fourier Epicycles - A visualization tool that is used to visualize how the complex shapes can be represented through rotating circles. </li>
 <li>Prime Number Spiral Visualizer - A visualization tool that is used to visualize all the prime numbers up to 7919 and it was quite fun to build.</li>
+<li>Ball Collision Simulator- An awesome collision simulator which is used to simulate balls in canvas with real type of physics calculations.</li>
 </ol>
 <h3>How to use it?</h3>
 <p>Go to https://pratik-toolsengine.vercel.app and enjoy using these unique tools.</p>
