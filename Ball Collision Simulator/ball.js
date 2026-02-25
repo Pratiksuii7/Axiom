@@ -229,3 +229,52 @@ function checkBallToBallCollision(){
         }
     }
 }
+//ots morning but i am so still tired
+let mouse =new Vec2(0,0);
+let lastMouse= new Vec2(0,0);
+let mouseVel = new Vec2(0,0);
+let activeDragTarget =null;
+let isShiftPressed =false;
+function getcanvasmousepos(e){
+    let rect =canvas.getBoundingClientRect();
+    return new Vec2(e.clientX-rect.left,e.clientY-rect.top);
+}
+canvas.addEventListener('mousemove',(e)=>{
+    lastMouse =mouse.copy();
+    mouse = getcanvasmousepos(e);
+    mouseVel.x =mouse.x-lastMouse.x;
+    mouseVel.y=mouse.y-lastMouse.y;
+    if(activeDragTarget){
+        activeDragTarget.pos.x = mouse.x;
+        activeDragTarget.pos.y=mouse.y;
+    }
+});
+canvas.addEventListener('mousedown',(e)=>{
+    mouse =getcanvasmousepos(e);
+    for(let i=entities.length-1;i>=0;i--){
+        let b=entities[i];
+        let d = mouse.sub(b.pos).mag();
+        if(d<=b.r){
+            if(isShiftPressed){
+                entities.splice(i,1);
+                return;
+            }else{
+                activeDragTarget=b;
+                b.isGrabbed=true;
+                return;
+            }
+        }
+    }
+    if(!isShiftPressed&&!activeDragTarget){
+        spawnBall(mouse.x,mouse.y);
+    }
+});
+canvas.addEventListener('mouseup',(e)=>{
+    if(activeDragTarget){
+        activeDragTarget.isGrabbed = false;
+        activeDragTarget.vel.x =mouseVel.x*0.8;
+        activeDragTarget.vel.y=mouseVel.y*0.8;
+        activeDragTarget = null;
+    }
+});
+//a small break
