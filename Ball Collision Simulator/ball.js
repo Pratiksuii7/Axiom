@@ -1,4 +1,27 @@
 //less go lets do this
+const canvas = document.getElementById('mainCanvas');
+const wrapper = document.getElementById('render-target');
+const ctx = canvas.getContext('2d');
+let entities = [];
+let nextEntityId = 0;
+let frameCount = 0;
+let lastFpsTime = 0;
+let currentFps = 0;
+let collisionChecksCounter = 0;
+
+let config = {
+    gravity: 0.5,
+    wind: 0,
+    drag: 0.995,
+    restitution: 0.85,
+    spawnRadius: 25,
+    spawnMass: 10,
+    doCollisions: true,
+    doTrails: false,
+    doVectors: false,
+    doFill: true
+};
+
 const THE_COLORS =[
  '#ff4757','#2ed573','#1e90ff','#ffa502',
  '#ff6b81','#7bed9f','#70a1ff','#eccc68',
@@ -51,7 +74,7 @@ class Vec2{
         return this.x*this.x +this.y*this.y;
     }
     mag(){
-        return Math.aqrt(this.magSq());
+        return Math.sqrt(this.magSq());
     }
     normalize(){
         let m= this.mag();
@@ -72,15 +95,15 @@ class Vec2{
     }
 }
 class PhysicsBall{
-    constructor(x,y,radius,color){
+    constructor(x,y,radius,mass,color){
         this.id =nextEntityId++;
         this.pos =new Vec2(x,y);
         this.vel =new Vec2(0,0);
         this.acc= new Vec2(0,0);
         this.r = radius;
-        this.mass = this.mass;
+        this.mass = mass;
         this.invMass = mass === 0?0:1/mass;
-        this.color = coor||THE_COLORS[Math.floor(Math.random()(THE_COLORS.length))];
+        this.color = color||THE_COLORS[Math.floor(Math.random()*THE_COLORS.length)];
         this.isGrabbed =false;
         this.trail =[];
     }
@@ -173,20 +196,27 @@ function handleWallCollisions(ball){
         if(Math.abs(ball.vel.y)<1){
             ball.vel.x*=0.95;
         }
-    }else if(ball.pos.y-ball.r<0){
+    }else if(ball.pos.x-ball.r<0){
+        ball.pos.x =ball.r;
+        ball.vel.x *= -bounce;
+    }
+    
+    if(ball.pos.y+ball.r>canvas.height){
+        ball.pos.y = canvas.height - ball.r;
+        ball.vel.y *= -bounce;
+        if(Math.abs(ball.vel.x)<1){
+            ball.vel.x*=0.95;
+        }
+    } else if(ball.pos.y-ball.r<0){
         ball.pos.y =ball.r;
         ball.vel.y *= -bounce;
-    }
-    if(ball.pos.x+ball.r>canvas.width){
-        ball.pos.x = canvas.width - ball.r;
-        ball.vel.x *= -bounce;
     }
 }
 function checkBallToBallCollision(){
     if(!config.doCollisions)return;
     for(let i=0;i<entities.length;i++){
         let a= entities[i];
-        for(let j=i=+1;j<entities.length;j++){
+        for(let j=i+1;j<entities.length;j++){
             let b= entities[j];
             collisionChecksCounter++;
             let distToX = Math.abs(a.pos.x-b.pos.x);
@@ -278,3 +308,77 @@ canvas.addEventListener('mouseup',(e)=>{
     }
 });
 //a small break
+window.addEventListener('keydown',(e)=>{
+    if(e.key==='Shift')isShiftPressed =true;
+});
+window.addEventListener('keyup',(e)=>{
+    if(e.key==='Shift')isShiftPressed=false;
+});
+function spawnBall(x,y){
+    let r=config.spawnRadius+(Math.random()*10-5);
+    let m=config.spawnMass+(Math.random()*4-2);
+    if(r<2)r=2;
+    if(m<0.1)m=0.1;
+    let b=new PhysicsBall(x,y,r,m);
+    entities.push(b);
+}
+document.getElementById('btn-add-1').addEventListener('click',()=>{
+    spawnBall(canvas.width/2,canvas.height/3);
+});
+document.getElementById('btn-add-10').addEventListener('click',()=>{
+    for(let i=0;i<10;i++){
+        let px=(canvas.width/2)+(Math.random()*200-100);
+        let py = (canvas.height/4)+(Math.random()*100-50);
+        spawnBall(px,py);
+    }
+});
+document.getElementById('btn-nuke').addEventListener('click',()=>{
+    entities=[];
+});
+function linkSlider(sliderId,labelId,configKey,isFloat=true){
+    const sl = document.getElementById(sliderId);
+    const lbl =document.getElementById(labelId);
+    sl.value = config[configKey];
+    lbl.innerText = isFloat ? config[configKey].toFixed(3) : config[configKey];
+
+    sl.addEventListener('input',(e)=>{
+        let val = isFloat ? parseFloat(e.target.value) : parseInt(e.target.value);
+        config[configKey]=val;
+        lbl.innerText = isFloat ? val.toFixed(3) : val;
+    });
+}
+linkSlider('sl-gravity','lbl-gravity','gravity',true);
+linkSlider('sl-wind','lbl-wind','wind',true);
+linkSlider('sl-bounce','lbl-bounce','restitution',true);
+linkSlider('sl-drag','lbl-drag','drag',true);
+linkSlider('sl-radius','lbl-radius','spawnRadius',false);
+linkSlider('sl-mass','lbl-mass','spawnMass',false);
+document.getElementById('chk-collide').addEventListener('change',e=>config.doCollisions=e.target.checked);
+document.getElementById('chk-trails').addEventListener('change',e=> config.doTrails=e.target.checked);
+document.getElementById('chk-vectors').addEventListener('change',e=>config.doVectors=e.target.checked);
+document.getElementById('chk-fill').addEventListener('change',e=>config.doFill=e.target.checked);
+//last function YAY
+function engineTick(currentTime){
+    frameCount++;
+    if(currentTime-lastFpsTime>=1000){
+        currentFps =frameCount;
+        frameCount =0;
+        lastFpsTime =currentTime;
+        document.getElementById('stat-fps').innerText= currentFps;
+        document.getElementById('stat-count').innerText =entities.length;
+        document.getElementById('stat-checks').innerText = collisionChecksCounter;
+    }
+    collisionChecksCounter =0;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(let ball of entities){
+        ball.update();
+        handleWallCollisions(ball);
+    }
+    checkBallToBallCollision();
+    for(let ball of entities){
+        ball.draw(ctx);
+    }
+    requestAnimationFrame(engineTick);
+}
+requestAnimationFrame(engineTick);
+//finally done now some shipping heheh

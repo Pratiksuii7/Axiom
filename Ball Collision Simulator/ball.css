@@ -102,6 +102,11 @@ input[type="range"]{
     gap: 10px;
     margin-bottom: 15px;
 }
+.btn-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
 .btn{
     background: #2f3542;
     flex: 1;
